@@ -328,7 +328,16 @@ const RankingTable = ({ year, category, institutionType, searchTerm }: RankingTa
                     <span className="text-primary">{ranking.totalScore.toFixed(2)}</span>
                   </TableCell>
                   <TableCell className="px-4 py-3 whitespace-nowrap text-sm text-neutral-500 text-center">
-                    <Button variant="ghost" size="sm" className="text-primary hover:text-primary-dark" title="View Details">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="text-primary hover:text-primary-dark" 
+                      title="View Parameter Breakdown"
+                      onClick={() => {
+                        setSelectedRanking(ranking);
+                        setDialogOpen(true);
+                      }}
+                    >
                       <Eye className="h-4 w-4" />
                     </Button>
                   </TableCell>
@@ -363,6 +372,29 @@ const RankingTable = ({ year, category, institutionType, searchTerm }: RankingTa
           </div>
         </div>
       )}
+      
+      {/* Parameter Breakdown Dialog */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="sm:max-w-[85%] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex justify-between items-center">
+              <DialogTitle>Detailed Parameter Breakdown</DialogTitle>
+              <DialogClose asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0" title="Close">
+                  <X className="h-4 w-4" />
+                </Button>
+              </DialogClose>
+            </div>
+            <DialogDescription>
+              Showing detailed score breakdown for each parameter
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedRanking && (
+            <ParameterBreakdown ranking={selectedRanking} />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
