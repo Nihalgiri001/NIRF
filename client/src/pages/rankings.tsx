@@ -33,12 +33,12 @@ const institutionTypes = [
 const Rankings = () => {
   const [location] = useLocation();
   const [selectedYear, setSelectedYear] = useState<number>(2023);
-  const [selectedCategory, setSelectedCategory] = useState<string>("Overall");
+  const [selectedCategory, setSelectedCategory] = useState<string>("Engineering");
   const [selectedType, setSelectedType] = useState<string>("All");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filters, setFilters] = useState({
     year: selectedYear,
-    category: selectedCategory,
+    category: "Engineering", // Always use Engineering category
     type: selectedType !== "All" ? selectedType : undefined,
     search: searchTerm || undefined
   });
@@ -56,7 +56,7 @@ const Rankings = () => {
   const applyFilters = () => {
     setFilters({
       year: selectedYear,
-      category: selectedCategory,
+      category: "Engineering", // Always use Engineering category
       type: selectedType !== "All" ? selectedType : undefined,
       search: searchTerm || undefined
     });
@@ -88,8 +88,8 @@ const Rankings = () => {
       <main id="main-content" className="container mx-auto px-4 py-6">
         {/* Page Header */}
         <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-neutral-500">NIRF Rankings {selectedYear}</h1>
-          <p className="text-neutral-400 mt-2">View and analyze the latest institutional rankings across different categories</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-neutral-500">NIRF Engineering Rankings {selectedYear}</h1>
+          <p className="text-neutral-400 mt-2">View and analyze the latest engineering institution rankings from Andhra Pradesh and Telangana</p>
         </div>
         
         {/* Filters and Actions */}
