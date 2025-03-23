@@ -127,6 +127,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
           year: parseInt(row.Year as string),
           category: row.Category as string,
           rank: parseInt(row.Rank as string),
+          
+          // TLR Parameters (Teaching, Learning & Resources)
+          ssScore: row.SS ? parseFloat(row.SS as string) : undefined,
+          fsrScore: row.FSR ? parseFloat(row.FSR as string) : undefined,
+          fqeScore: row.FQE ? parseFloat(row.FQE as string) : undefined,
+          fruScore: row.FRU ? parseFloat(row.FRU as string) : undefined,
+          
+          // RPC Parameters (Research and Professional Practice)
+          puScore: row.PU ? parseFloat(row.PU as string) : undefined,
+          qpScore: row.QP ? parseFloat(row.QP as string) : undefined,
+          iprScore: row.IPR ? parseFloat(row.IPR as string) : undefined,
+          fpppScore: row.FPPP ? parseFloat(row.FPPP as string) : undefined,
+          
+          // GO Parameters (Graduation Outcomes)
+          gphScore: row.GPH ? parseFloat(row.GPH as string) : undefined,
+          gueScore: row.GUE ? parseFloat(row.GUE as string) : undefined,
+          msScore: row.MS ? parseFloat(row.MS as string) : undefined,
+          gphdScore: row.GPHD ? parseFloat(row.GPHD as string) : undefined,
+          
+          // OI Parameters (Outreach and Inclusivity)
+          rdScore: row.RD ? parseFloat(row.RD as string) : undefined,
+          wdScore: row.WD ? parseFloat(row.WD as string) : undefined,
+          escsScore: row.ESCS ? parseFloat(row.ESCS as string) : undefined,
+          pcsScore: row.PCS ? parseFloat(row.PCS as string) : undefined,
+          
+          // Main category scores
           tlrScore: parseFloat(row.TLR as string),
           rpcScore: parseFloat(row.RPC as string),
           goScore: parseFloat(row.GO as string),
