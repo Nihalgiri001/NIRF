@@ -164,7 +164,30 @@ export class MemStorage implements IStorage {
   
   async createRanking(ranking: InsertRanking): Promise<Ranking> {
     const id = this.rankingId++;
-    const newRanking: Ranking = { ...ranking, id };
+    
+    // Create default values for all the new fields
+    const newRanking: Ranking = {
+      ...ranking,
+      id,
+      // Set default values for the fields if they're not provided
+      ssScore: ranking.ssScore ?? null,
+      fsrScore: ranking.fsrScore ?? null,
+      fqeScore: ranking.fqeScore ?? null,
+      fruScore: ranking.fruScore ?? null,
+      puScore: ranking.puScore ?? null,
+      qpScore: ranking.qpScore ?? null,
+      iprScore: ranking.iprScore ?? null,
+      fpppScore: ranking.fpppScore ?? null,
+      gphScore: ranking.gphScore ?? null,
+      gueScore: ranking.gueScore ?? null,
+      msScore: ranking.msScore ?? null,
+      gphdScore: ranking.gphdScore ?? null,
+      rdScore: ranking.rdScore ?? null,
+      wdScore: ranking.wdScore ?? null,
+      escsScore: ranking.escsScore ?? null,
+      pcsScore: ranking.pcsScore ?? null
+    };
+    
     this.rankings.set(id, newRanking);
     return newRanking;
   }
@@ -326,33 +349,87 @@ export class MemStorage implements IStorage {
         }
       ];
       
-      // Engineering category rankings
+      // Engineering category rankings with detailed parameter breakdown
       const engineeringRankings: InsertRanking[] = [
         // Andhra Pradesh
         { 
           institutionId: 1, year: 2023, category: "Engineering", rank: 15,
+          // TLR breakdown - Teaching, Learning & Resources
+          ssScore: 18.50, fsrScore: 30.00, fqeScore: 17.29, fruScore: 30.00,
+          // RPC breakdown - Research and Professional Practice
+          puScore: 34.95, qpScore: 34.37, iprScore: 14.00, fpppScore: 9.78,
+          // GO breakdown - Graduation Outcomes
+          gphScore: 29.74, gueScore: 15.00, msScore: 19.34, gphdScore: 16.98,
+          // OI breakdown - Outreach and Inclusivity
+          rdScore: 21.57, wdScore: 14.88, escsScore: 9.49, pcsScore: 20.00,
+          // Main scores
           tlrScore: 84.23, rpcScore: 75.67, goScore: 76.45, oiScore: 70.23, prScore: 79.87, totalScore: 78.34
         },
         { 
           institutionId: 4, year: 2023, category: "Engineering", rank: 39,
+          // TLR breakdown
+          ssScore: 16.82, fsrScore: 27.65, fqeScore: 15.56, fruScore: 26.78,
+          // RPC breakdown
+          puScore: 30.12, qpScore: 29.87, iprScore: 10.25, fpppScore: 8.32,
+          // GO breakdown
+          gphScore: 25.34, gueScore: 14.23, msScore: 17.56, gphdScore: 14.21,
+          // OI breakdown
+          rdScore: 18.78, wdScore: 13.45, escsScore: 8.67, pcsScore: 17.54,
+          // Main scores
           tlrScore: 72.45, rpcScore: 63.87, goScore: 68.92, oiScore: 64.67, prScore: 61.23, totalScore: 67.23
         },
         { 
           institutionId: 5, year: 2023, category: "Engineering", rank: 47,
+          // TLR breakdown
+          ssScore: 15.43, fsrScore: 26.54, fqeScore: 14.87, fruScore: 25.32,
+          // RPC breakdown
+          puScore: 28.65, qpScore: 27.45, iprScore: 9.87, fpppScore: 7.65,
+          // GO breakdown
+          gphScore: 24.23, gueScore: 13.56, msScore: 16.78, gphdScore: 13.45,
+          // OI breakdown
+          rdScore: 17.65, wdScore: 12.98, escsScore: 8.12, pcsScore: 16.43,
+          // Main scores
           tlrScore: 69.87, rpcScore: 60.23, goScore: 65.67, oiScore: 62.45, prScore: 58.92, totalScore: 64.56
         },
         
         // Telangana
         { 
           institutionId: 8, year: 2023, category: "Engineering", rank: 8,
+          // TLR breakdown
+          ssScore: 19.87, fsrScore: 32.45, fqeScore: 18.76, fruScore: 31.98,
+          // RPC breakdown
+          puScore: 36.87, qpScore: 36.45, iprScore: 15.87, fpppScore: 10.56,
+          // GO breakdown
+          gphScore: 31.45, gueScore: 16.78, msScore: 20.87, gphdScore: 18.32,
+          // OI breakdown
+          rdScore: 23.45, wdScore: 16.32, escsScore: 10.23, pcsScore: 21.54,
+          // Main scores
           tlrScore: 89.67, rpcScore: 86.23, goScore: 80.45, oiScore: 77.34, prScore: 84.56, totalScore: 84.87
         },
         { 
           institutionId: 12, year: 2023, category: "Engineering", rank: 13,
+          // TLR breakdown
+          ssScore: 19.23, fsrScore: 31.78, fqeScore: 18.12, fruScore: 30.87,
+          // RPC breakdown
+          puScore: 35.98, qpScore: 35.54, iprScore: 14.98, fpppScore: 10.12,
+          // GO breakdown
+          gphScore: 30.87, gueScore: 15.98, msScore: 19.87, gphdScore: 17.65,
+          // OI breakdown
+          rdScore: 22.87, wdScore: 15.78, escsScore: 9.87, pcsScore: 20.87,
+          // Main scores
           tlrScore: 85.45, rpcScore: 83.67, goScore: 78.92, oiScore: 75.67, prScore: 81.23, totalScore: 81.78
         },
         { 
           institutionId: 15, year: 2023, category: "Engineering", rank: 32,
+          // TLR breakdown
+          ssScore: 17.54, fsrScore: 28.76, fqeScore: 16.32, fruScore: 27.98,
+          // RPC breakdown
+          puScore: 31.56, qpScore: 30.98, iprScore: 11.45, fpppScore: 8.87,
+          // GO breakdown
+          gphScore: 26.54, gueScore: 14.76, msScore: 18.12, gphdScore: 15.32,
+          // OI breakdown
+          rdScore: 19.54, wdScore: 14.12, escsScore: 9.12, pcsScore: 18.34,
+          // Main scores
           tlrScore: 76.23, rpcScore: 72.45, goScore: 70.67, oiScore: 67.89, prScore: 73.56, totalScore: 73.12
         }
       ];

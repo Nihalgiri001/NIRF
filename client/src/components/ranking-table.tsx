@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { RankingWithInstitution } from "@shared/schema";
-import { Eye, ChevronLeft, ChevronRight, ArrowUp, ArrowDown } from "lucide-react";
+import { Eye, ChevronLeft, ChevronRight, ArrowUp, ArrowDown, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -12,6 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import ParameterBreakdown from "./parameter-breakdown";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 
 interface RankingTableProps {
   year?: number;
@@ -24,6 +26,8 @@ const RankingTable = ({ year, category, institutionType, searchTerm }: RankingTa
   const [currentPage, setCurrentPage] = useState(1);
   const [sortField, setSortField] = useState<string>("rank");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [selectedRanking, setSelectedRanking] = useState<RankingWithInstitution | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const itemsPerPage = 10;
   
   const { data: rankings, isLoading, error } = useQuery<RankingWithInstitution[]>({

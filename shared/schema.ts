@@ -42,6 +42,32 @@ export const rankings = pgTable("rankings", {
   year: integer("year").notNull(),
   category: text("category").notNull(), // Overall, University, Engineering, etc.
   rank: integer("rank").notNull(),
+  
+  // TLR (Teaching, Learning & Resources) breakdown
+  ssScore: real("ss_score"), // Student Strength
+  fsrScore: real("fsr_score"), // Faculty-Student Ratio
+  fqeScore: real("fqe_score"), // Faculty Qualification & Experience  
+  fruScore: real("fru_score"), // Faculty Recruitment & Utilization
+  
+  // RPC (Research and Professional Practice) breakdown
+  puScore: real("pu_score"), // Publications
+  qpScore: real("qp_score"), // Quality of Publications
+  iprScore: real("ipr_score"), // IPR and Patents
+  fpppScore: real("fppp_score"), // Footprint of Projects & Professional Practice
+  
+  // GO (Graduation Outcomes) breakdown
+  gphScore: real("gph_score"), // Graduation Performance in Higher Studies
+  gueScore: real("gue_score"), // University Examinations
+  msScore: real("ms_score"), // Median Salary
+  gphdScore: real("gphd_score"), // Graduating Students in PhD
+  
+  // OI (Outreach and Inclusivity) breakdown
+  rdScore: real("rd_score"), // Regional Diversity
+  wdScore: real("wd_score"), // Women Diversity
+  escsScore: real("escs_score"), // Economically & Socially Challenged Students
+  pcsScore: real("pcs_score"), // Facilities for Physically Challenged Students
+  
+  // Scores for main categories
   tlrScore: real("tlr_score").notNull(), // Teaching, Learning & Resources
   rpcScore: real("rpc_score").notNull(), // Research and Professional Practice
   goScore: real("go_score").notNull(),   // Graduation Outcomes
@@ -55,6 +81,27 @@ export const insertRankingSchema = createInsertSchema(rankings).pick({
   year: true,
   category: true,
   rank: true,
+  // TLR breakdown
+  ssScore: true,
+  fsrScore: true,
+  fqeScore: true,
+  fruScore: true,
+  // RPC breakdown
+  puScore: true,
+  qpScore: true,
+  iprScore: true,
+  fpppScore: true,
+  // GO breakdown
+  gphScore: true,
+  gueScore: true,
+  msScore: true,
+  gphdScore: true,
+  // OI breakdown
+  rdScore: true,
+  wdScore: true,
+  escsScore: true,
+  pcsScore: true,
+  // Main scores
   tlrScore: true,
   rpcScore: true,
   goScore: true,
