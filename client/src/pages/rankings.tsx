@@ -17,6 +17,7 @@ import RankingTable from "@/components/ranking-table";
 import MethodologySummary from "@/components/methodology-summary";
 import FileImport from "@/components/file-import";
 import FileExport from "@/components/file-export";
+import TemplateDownload from "@/components/template-download";
 import { RankingWithInstitution } from "@shared/schema";
 
 const years = [2023, 2022, 2021, 2020, 2019];
@@ -160,6 +161,7 @@ const Rankings = () => {
               <h3 className="font-semibold text-neutral-500 mb-2">Data Import/Export</h3>
               <div className="flex gap-2 flex-wrap">
                 <FileImport onImportComplete={handleImportComplete} />
+                <TemplateDownload />
                 <FileExport 
                   data={rankings} 
                   category={selectedCategory} 
