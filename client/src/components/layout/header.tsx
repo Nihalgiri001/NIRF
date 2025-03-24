@@ -104,11 +104,6 @@ const Header = () => {
                     Contact Us
                   </Link>
                 </li>
-                <li>
-                  <Link href="/calculator" className="block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light">
-                    NIRF Score Calculator
-                  </Link>
-                </li>
               </ul>
             </div>
           </div>
