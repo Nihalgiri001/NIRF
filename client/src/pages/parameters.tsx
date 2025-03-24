@@ -1,13 +1,12 @@
-
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card, CardContent } from "@/components/ui/card";
-import Calculator from "@/components/calculator";
+import { Calculator } from "@/components/calculator";
 
 const Parameters = () => {
   return (
     <div className="container mx-auto py-6 px-4 max-w-6xl">
       <h1 className="text-3xl font-bold text-primary mb-8">NIRF Ranking Parameters</h1>
-      
+
       <div className="grid grid-cols-1 gap-8">
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="tlr">
