@@ -3,11 +3,10 @@ import { useState } from 'react';
 import { Card, CardContent } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Button } from './ui/button';
 
 export const Calculator = () => {
-  const [subParams, setSubParams] = useState({
-    // TLR
+  const [inputs, setInputs] = useState({
+    // TLR Inputs
     totalStudents: 0,
     sanctionedStrength: 0,
     femaleStudents: 0,
@@ -15,373 +14,387 @@ export const Calculator = () => {
     facultyCount: 0,
     sanctionedFaculty: 0,
     phdFaculty: 0,
-    experiencedFaculty: 0,
+    facultyExperience: 0,
     
-    // RPC
+    // RPC Inputs
     publications: 0,
     qualityPublications: 0,
-    citationsCount: 0,
-    patentsFiled: 0,
-    patentsGranted: 0,
-    sponsoredResearch: 0,
-    consultancyProjects: 0,
+    citedPublications: 0,
+    patents: 0,
+    grantedPatents: 0,
+    projectGrants: 0,
+    consultancy: 0,
     
-    // GO
+    // GO Inputs
     graduatesHigherStudies: 0,
     totalGraduates: 0,
     placedGraduates: 0,
     medianSalary: 0,
-    graduatedPhDs: 0,
+    phdGraduates: 0,
     
-    // OI
-    otherStateStudents: 0,
-    internationalStudents: 0,
+    // OI Inputs
+    regionalStudents: 0,
     womenStudents: 0,
-    economicallyChallenged: 0,
-    physicallyHandicapped: 0,
+    economicallyDisadvantaged: 0,
+    physicallyDisadvantaged: 0,
     
-    // PR
-    employerRating: 0,
-    academicRating: 0,
-    publicPerception: 0
+    // PR Input
+    perceptionScore: 0
   });
 
-  const calculateSubScores = () => {
-    // TLR Calculations (30%)
-    const ssScore = (subParams.totalStudents / subParams.sanctionedStrength) * 15 + 
-                   (subParams.femaleStudents / subParams.totalStudents) * 5 +
-                   (subParams.phdStudents / subParams.totalStudents) * 5;
+  const calculateScores = () => {
+    // TLR Calculations
+    const ssScore = (inputs.totalStudents / inputs.sanctionedStrength) * 15 + 
+                   (inputs.femaleStudents / inputs.totalStudents) * 5 + 
+                   (inputs.phdStudents / inputs.totalStudents) * 5;
     
-    const fsrScore = (subParams.facultyCount / subParams.sanctionedFaculty) * 20 +
-                    (subParams.phdFaculty / subParams.facultyCount) * 10;
+    const fsrScore = (inputs.facultyCount / inputs.sanctionedFaculty) * 25;
     
-    const fqeScore = (subParams.experiencedFaculty / subParams.facultyCount) * 20;
+    const fqeScore = (inputs.phdFaculty / inputs.facultyCount) * 25;
     
-    const tlrScore = (ssScore + fsrScore + fqeScore) / 3;
+    const fruScore = (inputs.facultyExperience / 10) * 25; // Assuming max experience is 10 years
+    
+    const tlrScore = (ssScore + fsrScore + fqeScore + fruScore) / 4;
 
-    // RPC Calculations (30%)
-    const pubScore = (subParams.publications / subParams.facultyCount) * 30;
-    const qpScore = (subParams.qualityPublications * subParams.citationsCount) / subParams.publications * 20;
-    const iprScore = ((subParams.patentsGranted * 5) + subParams.patentsFiled) * 10;
-    const fpppScore = (subParams.sponsoredResearch + subParams.consultancyProjects) * 15;
+    // RPC Calculations
+    const puScore = (inputs.publications / inputs.facultyCount) * 25;
     
-    const rpcScore = (pubScore + qpScore + iprScore + fpppScore) / 4;
-
-    // GO Calculations (20%)
-    const gphScore = (subParams.graduatesHigherStudies / subParams.totalGraduates) * 40;
-    const placementScore = (subParams.placedGraduates / subParams.totalGraduates) * 40;
-    const salaryScore = subParams.medianSalary * 10;
-    const phdScore = subParams.graduatedPhDs * 10;
+    const qpScore = (inputs.qualityPublications / inputs.publications) * 25 +
+                   (inputs.citedPublications / inputs.publications) * 25;
     
-    const goScore = (gphScore + placementScore + salaryScore + phdScore) / 4;
+    const iprScore = (inputs.patents * 15 + inputs.grantedPatents * 10) / 25;
+    
+    const fpppScore = (inputs.projectGrants + inputs.consultancy) / 25;
+    
+    const rpcScore = (puScore + qpScore + iprScore + fpppScore) / 4;
 
-    // OI Calculations (10%)
-    const rdScore = ((subParams.otherStateStudents + subParams.internationalStudents) / subParams.totalStudents) * 30;
-    const wdScore = (subParams.womenStudents / subParams.totalStudents) * 30;
-    const escsScore = (subParams.economicallyChallenged / subParams.totalStudents) * 20;
-    const pcsScore = (subParams.physicallyHandicapped / subParams.totalStudents) * 20;
+    // GO Calculations
+    const gphScore = (inputs.graduatesHigherStudies / inputs.totalGraduates) * 25;
+    
+    const gueScore = (inputs.placedGraduates / inputs.totalGraduates) * 25;
+    
+    const msScore = Math.min((inputs.medianSalary / 10) * 25, 25); // Assuming 10LPA is max
+    
+    const gphdScore = (inputs.phdGraduates / inputs.totalGraduates) * 25;
+    
+    const goScore = (gphScore + gueScore + msScore + gphdScore) / 4;
+
+    // OI Calculations
+    const rdScore = (inputs.regionalStudents / inputs.totalStudents) * 25;
+    
+    const wdScore = (inputs.womenStudents / inputs.totalStudents) * 25;
+    
+    const escsScore = (inputs.economicallyDisadvantaged / inputs.totalStudents) * 25;
+    
+    const pcsScore = (inputs.physicallyDisadvantaged / inputs.totalStudents) * 25;
     
     const oiScore = (rdScore + wdScore + escsScore + pcsScore) / 4;
 
-    // PR Calculations (10%)
-    const prScore = (subParams.employerRating + subParams.academicRating + subParams.publicPerception) / 3;
-
-    // Final NIRF Score
-    const finalScore = (tlrScore * 0.3) + (rpcScore * 0.3) + (goScore * 0.2) + (oiScore * 0.1) + (prScore * 0.1);
+    // Calculate final score
+    const totalScore = (tlrScore * 0.3) + (rpcScore * 0.3) + (goScore * 0.2) + 
+                      (oiScore * 0.1) + (inputs.perceptionScore * 0.1);
 
     return {
-      tlr: { total: tlrScore.toFixed(2), ss: ssScore.toFixed(2), fsr: fsrScore.toFixed(2), fqe: fqeScore.toFixed(2) },
-      rpc: { total: rpcScore.toFixed(2), pub: pubScore.toFixed(2), qp: qpScore.toFixed(2), ipr: iprScore.toFixed(2), fppp: fpppScore.toFixed(2) },
-      go: { total: goScore.toFixed(2), gph: gphScore.toFixed(2), placement: placementScore.toFixed(2), salary: salaryScore.toFixed(2), phd: phdScore.toFixed(2) },
-      oi: { total: oiScore.toFixed(2), rd: rdScore.toFixed(2), wd: wdScore.toFixed(2), escs: escsScore.toFixed(2), pcs: pcsScore.toFixed(2) },
-      pr: { total: prScore.toFixed(2) },
-      final: finalScore.toFixed(2)
+      tlrScore: tlrScore.toFixed(2),
+      rpcScore: rpcScore.toFixed(2),
+      goScore: goScore.toFixed(2),
+      oiScore: oiScore.toFixed(2),
+      prScore: inputs.perceptionScore.toFixed(2),
+      totalScore: totalScore.toFixed(2)
     };
   };
 
-  const handleInputChange = (field: keyof typeof subParams, value: string) => {
+  const handleInputChange = (field: string, value: string) => {
     const numValue = parseFloat(value) || 0;
-    setSubParams(prev => ({
+    setInputs(prev => ({
       ...prev,
       [field]: numValue
     }));
   };
 
-  const scores = calculateSubScores();
+  const totals = calculateScores();
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* TLR Inputs */}
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* TLR Section */}
         <Card>
           <CardContent className="pt-6">
-            <h3 className="font-semibold mb-4">Teaching Learning & Resources</h3>
+            <h3 className="font-semibold mb-4">Teaching, Learning & Resources (TLR)</h3>
             <div className="space-y-4">
               <div>
                 <Label>Total Students</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.totalStudents}
+                  value={inputs.totalStudents}
                   onChange={(e) => handleInputChange('totalStudents', e.target.value)}
                 />
               </div>
               <div>
                 <Label>Sanctioned Student Strength</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.sanctionedStrength}
+                  value={inputs.sanctionedStrength}
                   onChange={(e) => handleInputChange('sanctionedStrength', e.target.value)}
                 />
               </div>
               <div>
                 <Label>Female Students</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.femaleStudents}
+                  value={inputs.femaleStudents}
                   onChange={(e) => handleInputChange('femaleStudents', e.target.value)}
                 />
               </div>
               <div>
                 <Label>PhD Students</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.phdStudents}
+                  value={inputs.phdStudents}
                   onChange={(e) => handleInputChange('phdStudents', e.target.value)}
                 />
               </div>
               <div>
                 <Label>Faculty Count</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.facultyCount}
+                  value={inputs.facultyCount}
                   onChange={(e) => handleInputChange('facultyCount', e.target.value)}
                 />
               </div>
               <div>
-                <Label>Faculty with PhD</Label>
-                <Input
+                <Label>Sanctioned Faculty</Label>
+                <Input 
                   type="number"
-                  value={subParams.phdFaculty}
+                  value={inputs.sanctionedFaculty}
+                  onChange={(e) => handleInputChange('sanctionedFaculty', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label>PhD Faculty</Label>
+                <Input 
+                  type="number"
+                  value={inputs.phdFaculty}
                   onChange={(e) => handleInputChange('phdFaculty', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label>Average Faculty Experience (years)</Label>
+                <Input 
+                  type="number"
+                  value={inputs.facultyExperience}
+                  onChange={(e) => handleInputChange('facultyExperience', e.target.value)}
                 />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* RPC Inputs */}
+        {/* RPC Section */}
         <Card>
           <CardContent className="pt-6">
-            <h3 className="font-semibold mb-4">Research & Professional Practice</h3>
+            <h3 className="font-semibold mb-4">Research & Professional Practice (RPC)</h3>
             <div className="space-y-4">
               <div>
-                <Label>Publications</Label>
-                <Input
+                <Label>Total Publications</Label>
+                <Input 
                   type="number"
-                  value={subParams.publications}
+                  value={inputs.publications}
                   onChange={(e) => handleInputChange('publications', e.target.value)}
                 />
               </div>
               <div>
                 <Label>Quality Publications</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.qualityPublications}
+                  value={inputs.qualityPublications}
                   onChange={(e) => handleInputChange('qualityPublications', e.target.value)}
                 />
               </div>
               <div>
-                <Label>Citations Count</Label>
-                <Input
+                <Label>Cited Publications</Label>
+                <Input 
                   type="number"
-                  value={subParams.citationsCount}
-                  onChange={(e) => handleInputChange('citationsCount', e.target.value)}
+                  value={inputs.citedPublications}
+                  onChange={(e) => handleInputChange('citedPublications', e.target.value)}
                 />
               </div>
               <div>
                 <Label>Patents Filed</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.patentsFiled}
-                  onChange={(e) => handleInputChange('patentsFiled', e.target.value)}
+                  value={inputs.patents}
+                  onChange={(e) => handleInputChange('patents', e.target.value)}
                 />
               </div>
               <div>
                 <Label>Patents Granted</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.patentsGranted}
-                  onChange={(e) => handleInputChange('patentsGranted', e.target.value)}
+                  value={inputs.grantedPatents}
+                  onChange={(e) => handleInputChange('grantedPatents', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label>Project Grants (Lakhs)</Label>
+                <Input 
+                  type="number"
+                  value={inputs.projectGrants}
+                  onChange={(e) => handleInputChange('projectGrants', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label>Consultancy Amount (Lakhs)</Label>
+                <Input 
+                  type="number"
+                  value={inputs.consultancy}
+                  onChange={(e) => handleInputChange('consultancy', e.target.value)}
                 />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* GO Inputs */}
+        {/* GO Section */}
         <Card>
           <CardContent className="pt-6">
-            <h3 className="font-semibold mb-4">Graduation Outcomes</h3>
+            <h3 className="font-semibold mb-4">Graduation Outcomes (GO)</h3>
             <div className="space-y-4">
               <div>
                 <Label>Graduates in Higher Studies</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.graduatesHigherStudies}
+                  value={inputs.graduatesHigherStudies}
                   onChange={(e) => handleInputChange('graduatesHigherStudies', e.target.value)}
                 />
               </div>
               <div>
                 <Label>Total Graduates</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.totalGraduates}
+                  value={inputs.totalGraduates}
                   onChange={(e) => handleInputChange('totalGraduates', e.target.value)}
                 />
               </div>
               <div>
                 <Label>Placed Graduates</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.placedGraduates}
+                  value={inputs.placedGraduates}
                   onChange={(e) => handleInputChange('placedGraduates', e.target.value)}
                 />
               </div>
               <div>
                 <Label>Median Salary (LPA)</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.medianSalary}
+                  value={inputs.medianSalary}
                   onChange={(e) => handleInputChange('medianSalary', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label>PhD Graduates</Label>
+                <Input 
+                  type="number"
+                  value={inputs.phdGraduates}
+                  onChange={(e) => handleInputChange('phdGraduates', e.target.value)}
                 />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* OI Inputs */}
+        {/* OI Section */}
         <Card>
           <CardContent className="pt-6">
-            <h3 className="font-semibold mb-4">Outreach and Inclusivity</h3>
+            <h3 className="font-semibold mb-4">Outreach and Inclusivity (OI)</h3>
             <div className="space-y-4">
               <div>
-                <Label>Other State Students</Label>
-                <Input
+                <Label>Regional Students</Label>
+                <Input 
                   type="number"
-                  value={subParams.otherStateStudents}
-                  onChange={(e) => handleInputChange('otherStateStudents', e.target.value)}
-                />
-              </div>
-              <div>
-                <Label>International Students</Label>
-                <Input
-                  type="number"
-                  value={subParams.internationalStudents}
-                  onChange={(e) => handleInputChange('internationalStudents', e.target.value)}
+                  value={inputs.regionalStudents}
+                  onChange={(e) => handleInputChange('regionalStudents', e.target.value)}
                 />
               </div>
               <div>
                 <Label>Women Students</Label>
-                <Input
+                <Input 
                   type="number"
-                  value={subParams.womenStudents}
+                  value={inputs.womenStudents}
                   onChange={(e) => handleInputChange('womenStudents', e.target.value)}
                 />
               </div>
               <div>
-                <Label>Economically Challenged</Label>
-                <Input
+                <Label>Economically Disadvantaged Students</Label>
+                <Input 
                   type="number"
-                  value={subParams.economicallyChallenged}
-                  onChange={(e) => handleInputChange('economicallyChallenged', e.target.value)}
+                  value={inputs.economicallyDisadvantaged}
+                  onChange={(e) => handleInputChange('economicallyDisadvantaged', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label>Physically Disadvantaged Students</Label>
+                <Input 
+                  type="number"
+                  value={inputs.physicallyDisadvantaged}
+                  onChange={(e) => handleInputChange('physicallyDisadvantaged', e.target.value)}
                 />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* PR Inputs */}
+        {/* PR Section */}
         <Card>
           <CardContent className="pt-6">
-            <h3 className="font-semibold mb-4">Perception Ratings</h3>
-            <div className="space-y-4">
-              <div>
-                <Label>Employer Rating (0-100)</Label>
-                <Input
-                  type="number"
-                  value={subParams.employerRating}
-                  onChange={(e) => handleInputChange('employerRating', e.target.value)}
-                />
-              </div>
-              <div>
-                <Label>Academic Rating (0-100)</Label>
-                <Input
-                  type="number"
-                  value={subParams.academicRating}
-                  onChange={(e) => handleInputChange('academicRating', e.target.value)}
-                />
-              </div>
-              <div>
-                <Label>Public Perception (0-100)</Label>
-                <Input
-                  type="number"
-                  value={subParams.publicPerception}
-                  onChange={(e) => handleInputChange('publicPerception', e.target.value)}
-                />
-              </div>
+            <h3 className="font-semibold mb-4">Perception (PR)</h3>
+            <div>
+              <Label>Perception Score</Label>
+              <Input 
+                type="number"
+                value={inputs.perceptionScore}
+                onChange={(e) => handleInputChange('perceptionScore', e.target.value)}
+                min="0"
+                max="100"
+              />
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Results Display */}
+      {/* Results Section */}
       <Card>
         <CardContent className="pt-6">
-          <h3 className="font-semibold mb-4">NIRF Ranking Scores</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <h3 className="font-semibold mb-4">Final Scores</h3>
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
             <div>
-              <h4 className="font-medium">TLR (30%)</h4>
-              <p>Student Strength: {scores.tlr.ss}</p>
-              <p>Faculty Ratio: {scores.tlr.fsr}</p>
-              <p>Faculty Quality: {scores.tlr.fqe}</p>
-              <p className="font-semibold">Total: {scores.tlr.total}</p>
+              <Label>TLR Score (30%)</Label>
+              <div className="text-2xl font-bold">{totals.tlrScore}</div>
             </div>
             <div>
-              <h4 className="font-medium">RPC (30%)</h4>
-              <p>Publications: {scores.rpc.pub}</p>
-              <p>Quality: {scores.rpc.qp}</p>
-              <p>IPR: {scores.rpc.ipr}</p>
-              <p>FPPP: {scores.rpc.fppp}</p>
-              <p className="font-semibold">Total: {scores.rpc.total}</p>
+              <Label>RPC Score (30%)</Label>
+              <div className="text-2xl font-bold">{totals.rpcScore}</div>
             </div>
             <div>
-              <h4 className="font-medium">GO (20%)</h4>
-              <p>Higher Studies: {scores.go.gph}</p>
-              <p>Placement: {scores.go.placement}</p>
-              <p>Salary: {scores.go.salary}</p>
-              <p>PhD: {scores.go.phd}</p>
-              <p className="font-semibold">Total: {scores.go.total}</p>
+              <Label>GO Score (20%)</Label>
+              <div className="text-2xl font-bold">{totals.goScore}</div>
             </div>
             <div>
-              <h4 className="font-medium">OI (10%)</h4>
-              <p>Regional Diversity: {scores.oi.rd}</p>
-              <p>Women Diversity: {scores.oi.wd}</p>
-              <p>Economic Diversity: {scores.oi.escs}</p>
-              <p>Physical Diversity: {scores.oi.pcs}</p>
-              <p className="font-semibold">Total: {scores.oi.total}</p>
+              <Label>OI Score (10%)</Label>
+              <div className="text-2xl font-bold">{totals.oiScore}</div>
             </div>
             <div>
-              <h4 className="font-medium">PR (10%)</h4>
-              <p className="font-semibold">Total: {scores.pr.total}</p>
+              <Label>PR Score (10%)</Label>
+              <div className="text-2xl font-bold">{totals.prScore}</div>
             </div>
-          </div>
-          <div className="mt-6 text-center">
-            <h3 className="text-2xl font-bold text-primary">Final NIRF Score: {scores.final}</h3>
+            <div>
+              <Label>Total Score</Label>
+              <div className="text-2xl font-bold text-primary">{totals.totalScore}</div>
+            </div>
           </div>
         </CardContent>
       </Card>
     </div>
   );
 };
-
-export default Calculator;
