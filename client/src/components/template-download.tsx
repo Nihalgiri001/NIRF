@@ -1,151 +1,346 @@
-import { FileDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from "./ui/button";
 import { utils, writeFile } from "@/lib/excel";
+import { Download } from "lucide-react";
 
 const TemplateDownload = () => {
-  const { toast } = useToast();
-  
   const handleDownload = () => {
-    try {
-      // Create workbook and worksheet
-      const wb = utils.book_new();
-      
-      // Create a template with all required columns
-      const templateData = [{
-        // Required fields
-        Institution: "Example University",
-        City: "Hyderabad",
-        State: "Telangana",
-        Type: "Public",
-        Year: "2023",
-        Category: "Engineering",
-        Rank: "1",
+    // Create a new workbook
+    const wb = utils.book_new();
+    
+    // Create template data with all required fields
+    const templateData = [
+      // Headers row
+      [
+        "Institution Name",
+        "State",
+        "Institution Type",
+        "Established Year",
+        "Category",
+        "Year",
         
-        // TLR breakdown fields
-        SS: "18.50",
-        FSR: "30.00",
-        FQE: "17.29",
-        FRU: "30.00",
+        // Faculty data
+        "Faculty Count",
+        "Faculty with PhD",
+        "Average Faculty Experience (years)",
+        "Sanctioned Faculty Positions",
         
-        // RPC breakdown fields
-        PU: "34.95",
-        QP: "34.37",
-        IPR: "14.00",
-        FPPP: "9.78",
+        // Student data
+        "Total Students",
+        "Female Students",
+        "SC/ST Students",
+        "Economically Backward Students",
+        "Physically Handicapped Students",
+        "PhD Students",
         
-        // GO breakdown fields
-        GPH: "29.74",
-        GUE: "15.00",
-        MS: "19.34",
-        GPHD: "16.98",
+        // Geographic diversity
+        "Students From Other States",
+        "Students From Abroad",
         
-        // OI breakdown fields
-        RD: "21.57",
-        WD: "14.88",
-        ESCS: "9.49",
-        PCS: "20.00",
+        // Research & Publications
+        "Research Publications",
+        "Citations Count",
+        "Patents Filed",
+        "Patents Granted",
+        "Sponsored Research Funding (Lakhs)",
+        "Consultancy Earnings (Lakhs)",
         
-        // Main score fields
-        TLR: "84.23",
-        RPC: "75.67",
-        GO: "76.45",
-        OI: "70.23",
-        PR: "79.87",
-        "Total Score": "78.34"
-      }];
-      
-      // Create worksheet with the template data
-      const ws = utils.json_to_sheet(templateData);
-      
-      // Add column headers with descriptions
-      const headerComment = {
-        Institution: "Full name of the institution",
-        City: "City where the institution is located",
-        State: "State where the institution is located",
-        Type: "e.g., Public, Private, Deemed University, etc.",
-        Year: "Assessment year",
-        Category: "e.g., Engineering, Management, etc.",
-        Rank: "Rank of the institution",
+        // Placement & Higher Studies
+        "Graduates in Higher Studies",
+        "Graduates Placed",
+        "Median Salary (Lakhs)",
         
-        // TLR breakdown fields
-        SS: "Student Strength",
-        FSR: "Faculty-Student Ratio",
-        FQE: "Faculty Qualification & Experience",
-        FRU: "Faculty Recruitment & Utilization",
+        // Graduation metrics
+        "Total Graduates",
+        "Graduates in Stipulated Time",
         
-        // RPC breakdown fields
-        PU: "Publications",
-        QP: "Quality of Publications",
-        IPR: "IPR and Patents",
-        FPPP: "Footprint of Projects & Professional Practice",
+        // Perception score
+        "Peer Perception Score",
         
-        // GO breakdown fields
-        GPH: "Graduation Performance in Higher Studies",
-        GUE: "University Examinations",
-        MS: "Median Salary",
-        GPHD: "Graduating Students in PhD",
+        // Optional: Direct parameter scores if already calculated
+        "SS Score",
+        "FSR Score",
+        "FQE Score",
+        "FRU Score",
+        "TLR Score",
+        "PU Score",
+        "QP Score",
+        "IPR Score",
+        "FPPP Score",
+        "RPC Score",
+        "GPH Score",
+        "GUE Score",
+        "MS Score",
+        "GPHD Score",
+        "GO Score",
+        "RD Score",
+        "WD Score",
+        "ESCS Score",
+        "PCS Score",
+        "OI Score",
+        "PR Score",
+        "Total Score"
+      ],
+      // Example row with sample data
+      [
+        "Indian Institute of Technology Hyderabad",
+        "Telangana",
+        "Public",
+        2008,
+        "Engineering",
+        2023,
         
-        // OI breakdown fields
-        RD: "Regional Diversity",
-        WD: "Women Diversity",
-        ESCS: "Economically & Socially Challenged Students",
-        PCS: "Facilities for Physically Challenged Students",
+        // Faculty data
+        150,
+        135,
+        12,
+        170,
         
-        // Main score fields
-        TLR: "Teaching, Learning & Resources Total Score",
-        RPC: "Research and Professional Practice Total Score",
-        GO: "Graduation Outcomes Total Score",
-        OI: "Outreach and Inclusivity Total Score",
-        PR: "Perception Total Score",
-        "Total Score": "Overall Total Score"
-      };
-      
-      // Add worksheet to workbook
-      utils.book_append_sheet(wb, ws, "Template");
-      
-      // Create a second worksheet with instructions
-      const instructionsData = [
-        {Instructions: "Instructions for filling the Excel template:"},
-        {Instructions: "1. Keep all column headers exactly as they are."},
-        {Instructions: "2. Fill in data for all required fields (Institution, City, State, Type, Year, Category, Rank, TLR, RPC, GO, OI, PR, Total Score)."},
-        {Instructions: "3. Fill in detailed parameter scores if available (SS, FSR, FQE, etc.). These are optional but recommended."},
-        {Instructions: "4. Use numerical values for all score fields."},
-        {Instructions: "5. Save your file as .xlsx format before uploading."}
-      ];
-      
-      const wsInstructions = utils.json_to_sheet(instructionsData);
-      utils.book_append_sheet(wb, wsInstructions, "Instructions");
-      
-      // Generate filename
-      const fileName = `NIRF_Rankings_Template.xlsx`;
-      
-      // Save file
-      writeFile(wb, fileName);
-      
-      toast({
-        title: "Template downloaded",
-        description: `Template file saved as ${fileName}`,
-      });
-    } catch (error) {
-      toast({
-        title: "Download failed",
-        description: "Failed to download template",
-        variant: "destructive",
-      });
-      console.error("Template download error:", error);
-    }
+        // Student data
+        3500,
+        1050,
+        525,
+        700,
+        35,
+        450,
+        
+        // Geographic diversity
+        1400,
+        70,
+        
+        // Research & Publications
+        450,
+        3600,
+        60,
+        24,
+        1200,
+        350,
+        
+        // Placement & Higher Studies
+        120,
+        430,
+        12,
+        
+        // Graduation metrics
+        600,
+        570,
+        
+        // Perception score
+        85,
+        
+        // Optional parameter scores (can be left blank for calculation)
+        18.5,
+        30,
+        19.2,
+        26.5,
+        94.2,
+        32.1,
+        36.4,
+        12.8,
+        9.5,
+        90.8,
+        38,
+        13.5,
+        22.5,
+        15,
+        89,
+        24,
+        18,
+        18,
+        15,
+        75,
+        85,
+        87.8
+      ],
+      // Empty row for user to fill in
+      [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    ];
+    
+    // Create a worksheet
+    const ws = utils.aoa_to_sheet(templateData);
+    
+    // Set column widths
+    const colWidths = [
+      { wch: 40 }, // Institution Name
+      { wch: 15 }, // State
+      { wch: 15 }, // Institution Type
+      { wch: 15 }, // Established Year
+      { wch: 15 }, // Category
+      { wch: 10 }, // Year
+      { wch: 15 }, // Faculty Count
+      { wch: 15 }, // Faculty with PhD
+      { wch: 25 }, // Average Faculty Experience
+      { wch: 25 }, // Sanctioned Faculty Positions
+      { wch: 15 }, // Total Students
+      { wch: 15 }, // Female Students
+      { wch: 15 }, // SC/ST Students
+      { wch: 25 }, // Economically Backward Students
+      { wch: 25 }, // Physically Handicapped Students
+      { wch: 15 }, // PhD Students
+      { wch: 25 }, // Students From Other States
+      { wch: 20 }, // Students From Abroad
+      { wch: 20 }, // Research Publications
+      { wch: 15 }, // Citations Count
+      { wch: 15 }, // Patents Filed
+      { wch: 15 }, // Patents Granted
+      { wch: 30 }, // Sponsored Research Funding
+      { wch: 25 }, // Consultancy Earnings
+      { wch: 25 }, // Graduates in Higher Studies
+      { wch: 15 }, // Graduates Placed
+      { wch: 20 }, // Median Salary
+      { wch: 15 }, // Total Graduates
+      { wch: 25 }, // Graduates in Stipulated Time
+      { wch: 20 }, // Peer Perception Score
+      { wch: 10 }, // SS Score
+      { wch: 10 }, // FSR Score
+      { wch: 10 }, // FQE Score
+      { wch: 10 }, // FRU Score
+      { wch: 10 }, // TLR Score
+      { wch: 10 }, // PU Score
+      { wch: 10 }, // QP Score
+      { wch: 10 }, // IPR Score
+      { wch: 10 }, // FPPP Score
+      { wch: 10 }, // RPC Score
+      { wch: 10 }, // GPH Score
+      { wch: 10 }, // GUE Score
+      { wch: 10 }, // MS Score
+      { wch: 10 }, // GPHD Score
+      { wch: 10 }, // GO Score
+      { wch: 10 }, // RD Score
+      { wch: 10 }, // WD Score
+      { wch: 10 }, // ESCS Score
+      { wch: 10 }, // PCS Score
+      { wch: 10 }, // OI Score
+      { wch: 10 }, // PR Score
+      { wch: 10 }, // Total Score
+    ];
+    
+    // Apply column widths
+    ws['!cols'] = colWidths;
+    
+    // Add notes/explanations in a separate worksheet
+    const notesData = [
+      ["NIRF Ranking Parameters - Explanation"],
+      [""],
+      ["Parameter", "Code", "Description", "Max Score"],
+      ["Teaching, Learning & Resources", "TLR", "Measures the institute's core educational resources", "100"],
+      ["Student Strength", "SS", "Total students including weighted PhD enrollments", "20"],
+      ["Faculty-Student Ratio", "FSR", "Ratio of faculty to students, optimal ratio is <= 15:1", "30"],
+      ["Faculty Qualification & Experience", "FQE", "Quality of faculty based on qualifications and experience", "20"],
+      ["Faculty Recruitment & Utilization", "FRU", "Percentage of faculty positions filled", "30"],
+      [""],
+      ["Research and Professional Practice", "RPC", "Measures research output and professional contributions", "100"],
+      ["Publications", "PU", "Research publications per faculty", "35"],
+      ["Quality of Publications", "QP", "Citations per paper and other quality metrics", "40"],
+      ["IPR and Patents", "IPR", "Patents filed and granted per faculty", "15"],
+      ["Footprint of Projects", "FPPP", "Sponsored research and consultancy earnings", "10"],
+      [""],
+      ["Graduation Outcomes", "GO", "Measures the outcomes and success of graduates", "100"],
+      ["Graduation Performance", "GPH", "Students graduating in stipulated time", "40"],
+      ["University Examinations", "GUE", "Performance in university exams", "15"],
+      ["Median Salary", "MS", "Median salary of graduates", "25"],
+      ["Graduating Students in PhD", "GPHD", "PhD graduates as percentage of total graduates", "20"],
+      [""],
+      ["Outreach and Inclusivity", "OI", "Measures diversity and inclusivity efforts", "100"],
+      ["Regional Diversity", "RD", "Students from other states and countries", "30"],
+      ["Women Diversity", "WD", "Women students as percentage of total", "30"],
+      ["Economically & Socially Challenged Students", "ESCS", "SC/ST and economically backward students", "20"],
+      ["Facilities for Physically Challenged Students", "PCS", "Physically handicapped students and facilities", "20"],
+      [""],
+      ["Perception", "PR", "Perception of institute among peers, employers, etc.", "100"],
+      [""],
+      ["Notes:"],
+      ["1. All data should be for the specified academic year"],
+      ["2. You can either provide raw data and let the system calculate scores, or input pre-calculated scores directly"],
+      ["3. For field-specific guidance, refer to the NIRF methodology document"],
+      ["4. Ensure all numeric data is accurate - the quality of rankings depends on data integrity"]
+    ];
+    
+    const notesWs = utils.aoa_to_sheet(notesData);
+    
+    // Set column widths for notes
+    const notesColWidths = [
+      { wch: 45 },
+      { wch: 10 },
+      { wch: 70 },
+      { wch: 10 }
+    ];
+    
+    // Apply column widths
+    notesWs['!cols'] = notesColWidths;
+    
+    // Add the worksheets to the workbook
+    utils.book_append_sheet(wb, ws, "Template");
+    utils.book_append_sheet(wb, notesWs, "Parameter Explanations");
+    
+    // Download the workbook
+    writeFile(wb, "nirf_ranking_template.xlsx");
   };
-  
+
   return (
-    <Button 
-      variant="outline"
-      className="bg-secondary hover:bg-secondary-dark text-neutral-500 px-3 py-1.5 rounded border border-neutral-300 text-sm flex items-center h-auto"
-      onClick={handleDownload}
-    >
-      <FileDown className="h-4 w-4 mr-2" />
-      Download Template
-    </Button>
+    <div className="bg-white p-4 rounded shadow-sm">
+      <h3 className="text-lg font-semibold mb-4">Download Template</h3>
+      <p className="text-sm text-gray-600 mb-4">
+        Download an Excel template with all required fields for importing NIRF rankings data.
+        The template includes sample data and parameter explanations.
+      </p>
+      <Button onClick={handleDownload} className="w-full flex items-center justify-center">
+        <Download className="mr-2 h-4 w-4" />
+        Download Template
+      </Button>
+    </div>
   );
 };
 
