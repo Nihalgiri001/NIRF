@@ -37,6 +37,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link href="/calculator" className="text-neutral-200 hover:text-white">
+                  Score Calculator
+                </Link>
+              </li>
+              <li>
                 <Link href="#" className="text-neutral-200 hover:text-white">
                   FAQ
                 </Link>
