@@ -4,11 +4,16 @@ import { Calculator } from "@/components/calculator";
 
 const Parameters = () => {
   return (
-    <div className="container mx-auto py-6 px-4 max-w-6xl">
-      <h1 className="text-3xl font-bold text-primary mb-8">NIRF Ranking Parameters</h1>
+    <div className="container mx-auto py-8 px-4 max-w-6xl">
+      <h1 className="text-4xl font-bold text-primary mb-8 text-center">NIRF Ranking Parameters</h1>
+      <div className="bg-white/50 backdrop-blur-sm rounded-lg shadow-lg p-6 mb-8">
+        <p className="text-neutral-600 text-center max-w-2xl mx-auto">
+          Understand and calculate your institution's NIRF ranking using our comprehensive parameter breakdown and interactive calculator.
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 gap-8">
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion type="single" collapsible className="w-full space-y-4">
           <AccordionItem value="tlr">
             <AccordionTrigger>Teaching, Learning & Resources (TLR) - 30%</AccordionTrigger>
             <AccordionContent>
