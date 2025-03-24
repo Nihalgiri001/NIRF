@@ -26,7 +26,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Logo and site title */}
         <div className="flex flex-col md:flex-row items-center justify-between py-3 px-4 md:px-6">
           <div className="flex items-center mb-3 md:mb-0">
@@ -41,7 +41,7 @@ const Header = () => {
             <button className="bg-amber-500 hover:brightness-95 text-white px-4 py-2 rounded text-sm">Register</button>
           </div>
         </div>
-        
+
         {/* Main navigation */}
         <nav className="bg-primary text-white">
           <div className="container mx-auto">
@@ -102,6 +102,11 @@ const Header = () => {
                 <li>
                   <Link href="#" className="block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light">
                     Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/calculator" className="block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light">
+                    NIRF Score Calculator
                   </Link>
                 </li>
               </ul>
