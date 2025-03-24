@@ -103,16 +103,16 @@ const Footer = () => {
             <p className="text-sm text-neutral-800">&copy; {new Date().getFullYear()} National Institutional Ranking Framework. All Rights Reserved.</p>
           </div>
           <div className="flex space-x-4">
-            <a href="#" className="text-neutral-300 hover:text-white">
+            <a href="#" className="text-neutral-800 hover:text-neutral-900">
               <Facebook size={18} />
             </a>
-            <a href="#" className="text-neutral-300 hover:text-white">
+            <a href="#" className="text-neutral-800 hover:text-neutral-900">
               <Twitter size={18} />
             </a>
-            <a href="#" className="text-neutral-300 hover:text-white">
+            <a href="#" className="text-neutral-800 hover:text-neutral-900">
               <Youtube size={18} />
             </a>
-            <a href="#" className="text-neutral-300 hover:text-white">
+            <a href="#" className="text-neutral-800 hover:text-neutral-900">
               <Linkedin size={18} />
             </a>
           </div>
