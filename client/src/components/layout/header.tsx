@@ -85,6 +85,11 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/parameters" className={`block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light ${location === '/parameters' ? 'bg-primary-dark font-semibold' : ''}`}>
+                    Parameters
+                  </Link>
+                </li>
+                <li>
                   <Link href="#" className="block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light">
                     Reports
                   </Link>

@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Rankings from "@/pages/rankings";
 import Methodology from "@/pages/methodology";
+import Parameters from "@/pages/parameters";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
@@ -17,6 +18,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/rankings" component={Rankings} />
         <Route path="/methodology" component={Methodology} />
+        <Route path="/parameters" component={Parameters} />
         <Route component={NotFound} />
       </Switch>
       <Footer />
