@@ -4,6 +4,7 @@ import { Link, useLocation } from "wouter";
 import { Search, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import RankingsFilter from "@/components/rankings-filter";
 import { 
   Select,
   SelectContent,
