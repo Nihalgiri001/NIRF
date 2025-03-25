@@ -1,4 +1,3 @@
-
 import { useState, useRef } from 'react';
 import { Upload } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -13,11 +12,11 @@ const FileImport = ({ onImportComplete }: FileImportProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    
+
     // Validate file type
     const fileExt = file.name.split('.').pop()?.toLowerCase();
     if (fileExt !== 'xlsx' && fileExt !== 'xls') {
@@ -31,34 +30,34 @@ const FileImport = ({ onImportComplete }: FileImportProps) => {
       }
       return;
     }
-    
+
     const formData = new FormData();
     formData.append('file', file);
-    
+
     setIsUploading(true);
-    
+
     try {
       const response = await fetch('/api/import', {
         method: 'POST',
         body: formData,
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to import file');
       }
-      
+
       const data = await response.json();
-      
+
       toast({
         title: "Import successful",
         description: `Imported ${data.institutionsCount} institutions and ${data.rankingsCount} rankings`,
       });
-      
+
       // Refresh data
       queryClient.invalidateQueries({ queryKey: ['/api/rankings'] });
       queryClient.invalidateQueries({ queryKey: ['/api/institutions'] });
-      
+
       onImportComplete();
     } catch (error) {
       toast({
@@ -73,7 +72,7 @@ const FileImport = ({ onImportComplete }: FileImportProps) => {
       }
     }
   };
-  
+
   return (
     <label 
       htmlFor="file-upload" 
