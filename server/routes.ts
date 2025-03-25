@@ -78,12 +78,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Read Excel file
       const workbook = read(req.file.buffer);
-      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-      const data = utils.sheet_to_json(worksheet) as Record<string, any>[];
+      const allData: Record<string, any[]> = {};
       
-      if (!data || data.length === 0) {
-        return res.status(400).json({ message: "No data found in the Excel file" });
+      for (const sheetName of workbook.SheetNames) {
+        const worksheet = workbook.Sheets[sheetName];
+        const sheetData = utils.sheet_to_json(worksheet) as Record<string, any>[];
+        if (sheetData && sheetData.length > 0) {
+          allData[sheetName] = sheetData;
+        }
       }
+      
+      if (Object.keys(allData).length === 0) {
+        return res.status(400).json({ message: "No data found in any sheet of the Excel file" });
+      }
+
+      // Process each sheet's data
+      for (const [sheetName, data] of Object.entries(allData)) {
       
       // Process institutions first
       const institutions = new Map();
@@ -208,18 +218,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
           rankingData = {
             institutionId,
             year,
-            category,
+            category: sheetName,
             rank,
             ...scores
           };
           
-          console.log(`Calculated scores for ${institutionName}:`, scores);
+          console.log(`Calculated scores for ${institutionName} in ${sheetName}:`, scores);
         } else {
           // We have pre-calculated scores
           rankingData = {
             institutionId,
             year,
-            category,
+            category: sheetName,
             rank,
             
             // TLR Parameters (Teaching, Learning & Resources)
@@ -316,13 +326,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
       
+      }
+      
       // Save all rankings
       await storage.bulkCreateRankings(rankings);
       
       res.status(200).json({ 
         message: "Import successful", 
         institutionsCount: institutions.size, 
-        rankingsCount: rankings.length 
+        rankingsCount: rankings.length,
+        categories: workbook.SheetNames
       });
     } catch (error) {
       console.error("Error importing Excel file:", error);
