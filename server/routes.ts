@@ -59,6 +59,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Get all institutions
+  // Get available categories
+  app.get("/api/categories", async (req: Request, res: Response) => {
+    try {
+      const rankings = await storage.getRankings();
+      const categories = [...new Set(rankings.map(r => r.category))];
+      res.json({ categories });
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      res.status(500).json({ message: "Error fetching categories" });
+    }
+  });
+
   app.get("/api/institutions", async (req: Request, res: Response) => {
     try {
       const institutions = await storage.getInstitutions();
