@@ -39,39 +39,39 @@ const Rankings = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filters, setFilters] = useState({
     year: selectedYear,
-    category: "Engineering", // Always use Engineering category
+    category: "Engineering", 
     type: selectedType !== "All" ? selectedType : undefined,
     search: searchTerm || undefined
   });
-  
+
   // Get rankings with applied filters
   const { data: rankings } = useQuery<RankingWithInstitution[]>({
     queryKey: ['/api/rankings', filters],
   });
-  
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     applyFilters();
   };
-  
+
   const applyFilters = () => {
     setFilters({
       year: selectedYear,
-      category: "Engineering", // Always use Engineering category
+      category: selectedCategory, 
       type: selectedType !== "All" ? selectedType : undefined,
       search: searchTerm || undefined
     });
   };
-  
+
   const handleImportComplete = () => {
     // Refresh data after import
     applyFilters();
   };
-  
+
   const handlePrint = () => {
     window.print();
   };
-  
+
   return (
     <div className="flex-grow bg-secondary-light">
       {/* Breadcrumbs */}
@@ -83,16 +83,16 @@ const Rankings = () => {
           </div>
         </div>
       </div>
-      
+
       <AnnouncementsCarousel />
-      
+
       <main id="main-content" className="container mx-auto px-4 py-6">
         {/* Page Header */}
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-neutral-500">NIRF Engineering Rankings {selectedYear}</h1>
           <p className="text-neutral-400 mt-2">View and analyze the latest engineering institution rankings from Andhra Pradesh and Telangana</p>
         </div>
-        
+
         {/* Filters and Actions */}
         <div className="bg-white p-4 rounded shadow-sm mb-6">
           <div className="md:flex items-center justify-between gap-4 mb-4">
@@ -118,7 +118,7 @@ const Rankings = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                
+
                 {/* Institution Type Filter */}
                 <div className="w-full sm:w-auto">
                   <label htmlFor="type" className="block text-sm text-neutral-500 mb-1">Institution Type</label>
@@ -140,7 +140,7 @@ const Rankings = () => {
                 </div>
               </div>
             </div>
-            
+
             <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-grow">
                 <Input
@@ -155,7 +155,7 @@ const Rankings = () => {
               <Button type="submit" className="bg-primary text-white">Apply Filters</Button>
             </form>
           </div>
-          
+
           <div className="flex flex-wrap items-center justify-between border-t border-neutral-200 pt-4">
             <div>
               <h3 className="font-semibold text-neutral-500 mb-2">Data Import/Export</h3>
@@ -177,7 +177,7 @@ const Rankings = () => {
                 </Button>
               </div>
             </div>
-            
+
             <div className="mt-4 sm:mt-0">
               <p className="text-sm text-neutral-400">
                 Showing <span className="font-semibold">{rankings?.length || 0}</span> institutions
@@ -185,7 +185,15 @@ const Rankings = () => {
             </div>
           </div>
         </div>
-        
+
+        {/* Placeholder for RankingsFilter component */}
+        <div>
+          {/* This is where the RankingsFilter component should be placed */}
+          <RankingsFilter onFilterChange={(newFilters) => {
+            setFilters(prev => ({ ...prev, ...newFilters }));
+          }} />
+        </div>
+
         {/* Ranking Tabs */}
         <RankingTabs
           activeCategory={selectedCategory}
@@ -198,7 +206,7 @@ const Rankings = () => {
             }));
           }}
         />
-        
+
         {/* Rankings Table */}
         <RankingTable
           year={filters.year}
@@ -206,10 +214,10 @@ const Rankings = () => {
           institutionType={filters.type}
           searchTerm={filters.search}
         />
-        
+
         {/* Methodology Summary */}
         <MethodologySummary />
-        
+
         {/* Legend and Disclaimer */}
         <div className="bg-white rounded shadow-sm p-4 text-sm text-neutral-500">
           <h3 className="font-semibold mb-2">Notes & Disclaimer</h3>

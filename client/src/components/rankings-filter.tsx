@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-function RankingsFilter() {
-  const [categories, setCategories] = useState(["Overall", "Engineering", "Management"]);
+function RankingsFilter({ onFilterChange }) {
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
     // Fetch available categories from the server
@@ -18,7 +19,15 @@ function RankingsFilter() {
   return (
     <div>
       <h2>Filter by Category</h2>
-      <select>
+      <select 
+        value={selectedCategory}
+        onChange={(e) => {
+          setSelectedCategory(e.target.value);
+          onFilterChange({ category: e.target.value });
+        }}
+        className="w-full p-2 border rounded"
+      >
+        <option value="">All Categories</option>
         {categories.map(category => (
           <option key={category} value={category}>{category}</option>
         ))}
