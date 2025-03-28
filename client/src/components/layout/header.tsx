@@ -59,8 +59,6 @@ const Header = () => {
               <li>
                 <Link href="/" className={`block py-3 px-4 hover:bg-primary-dark ${location === '/' ? 'bg-primary-dark font-semibold' : ''}`}>
                   Home
-                  </Link>
-                </li>
                 </Link>
               </li>
               <li>
@@ -79,12 +77,11 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                  <Link href="#" className="block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light">
-                    Resources
-                  </Link>
-                </li>
-              </ul>
-            </div>
+                <Link href="#" className="block py-3 px-4 hover:bg-primary-dark">
+                  Resources
+                </Link>
+              </li>
+            </ul>
           </div>
         </nav>
       </div>
