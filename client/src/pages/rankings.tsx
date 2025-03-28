@@ -91,7 +91,7 @@ const Rankings = () => {
         {/* Page Header */}
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-neutral-500">NIRF Engineering Rankings {selectedYear}</h1>
-          <p className="text-neutral-400 mt-2">View and analyze the latest engineering institution rankings from Andhra Pradesh and Telangana</p>
+          <p className="text-neutral-400 mt-2">View and analyze the latest engineering institution rankings across India</p>
         </div>
 
         {/* Filters and Actions */}
@@ -190,7 +190,7 @@ const Rankings = () => {
         {/* Placeholder for RankingsFilter component */}
         <div>
           {/* This is where the RankingsFilter component should be placed */}
-          <RankingsFilter onFilterChange={(newFilters) => {
+          <RankingsFilter onFilterChange={(newFilters: Record<string, any>) => {
             setFilters(prev => ({ ...prev, ...newFilters }));
           }} />
         </div>

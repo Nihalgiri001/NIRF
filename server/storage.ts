@@ -131,10 +131,8 @@ export class MemStorage implements IStorage {
         throw new Error(`Institution with ID ${ranking.institutionId} not found`);
       }
       
-      // Only include institutions from Andhra Pradesh and Telangana
-      if (institution.state !== "Andhra Pradesh" && institution.state !== "Telangana") {
-        return null;
-      }
+      // Include all institutions
+      // Filtering removed to include institutions from all states
       
       // Further filter by institution type if specified
       if (filters?.institutionType && institution.type !== filters.institutionType) {
@@ -240,7 +238,7 @@ export class MemStorage implements IStorage {
         createdAt: new Date().toISOString()
       },
       {
-        text: "Special ranking insights for Andhra Pradesh and Telangana institutions now available.",
+        text: "Special ranking insights for top engineering institutions now available.",
         isActive: 1,
         createdAt: new Date().toISOString()
       }
@@ -253,24 +251,24 @@ export class MemStorage implements IStorage {
   
   private seedInstitutions() {
     const institutions: InsertInstitution[] = [
-      // Andhra Pradesh Institutions
-      { name: "Indian Institute of Technology Tirupati", city: "Tirupati", state: "Andhra Pradesh", type: "Public" },
-      { name: "Andhra University", city: "Visakhapatnam", state: "Andhra Pradesh", type: "State University" },
-      { name: "Sri Venkateswara University", city: "Tirupati", state: "Andhra Pradesh", type: "State University" },
-      { name: "GITAM University", city: "Visakhapatnam", state: "Andhra Pradesh", type: "Deemed University" },
-      { name: "Koneru Lakshmaiah Education Foundation", city: "Guntur", state: "Andhra Pradesh", type: "Deemed University" },
-      { name: "VIT-AP University", city: "Amaravati", state: "Andhra Pradesh", type: "Private" },
-      { name: "SRM University, AP", city: "Amaravati", state: "Andhra Pradesh", type: "Private" },
+      // Top Institutions across India
+      { name: "Indian Institute of Technology Delhi", city: "New Delhi", state: "Delhi", type: "Public" },
+      { name: "Indian Institute of Technology Bombay", city: "Mumbai", state: "Maharashtra", type: "Public" },
+      { name: "Indian Institute of Technology Madras", city: "Chennai", state: "Tamil Nadu", type: "Public" },
+      { name: "Indian Institute of Technology Kanpur", city: "Kanpur", state: "Uttar Pradesh", type: "Public" },
+      { name: "Indian Institute of Technology Kharagpur", city: "Kharagpur", state: "West Bengal", type: "Public" },
+      { name: "Indian Institute of Technology Roorkee", city: "Roorkee", state: "Uttarakhand", type: "Public" },
+      { name: "Indian Institute of Technology Guwahati", city: "Guwahati", state: "Assam", type: "Public" },
       
-      // Telangana Institutions
-      { name: "Indian Institute of Technology Hyderabad", city: "Hyderabad", state: "Telangana", type: "Public" },
-      { name: "University of Hyderabad", city: "Hyderabad", state: "Telangana", type: "Central University" },
-      { name: "Osmania University", city: "Hyderabad", state: "Telangana", type: "State University" },
-      { name: "NALSAR University of Law", city: "Hyderabad", state: "Telangana", type: "Public" },
-      { name: "International Institute of Information Technology", city: "Hyderabad", state: "Telangana", type: "Deemed University" },
-      { name: "The English and Foreign Languages University", city: "Hyderabad", state: "Telangana", type: "Central University" },
-      { name: "ICFAI Foundation for Higher Education", city: "Hyderabad", state: "Telangana", type: "Deemed University" },
-      { name: "Birla Institute of Technology and Science", city: "Hyderabad", state: "Telangana", type: "Private" }
+      // More Diverse Institutions
+      { name: "Indian Institute of Science", city: "Bangalore", state: "Karnataka", type: "Public" },
+      { name: "Jadavpur University", city: "Kolkata", state: "West Bengal", type: "State University" },
+      { name: "Anna University", city: "Chennai", state: "Tamil Nadu", type: "State University" },
+      { name: "National Institute of Technology Tiruchirappalli", city: "Tiruchirappalli", state: "Tamil Nadu", type: "Public" },
+      { name: "Vellore Institute of Technology", city: "Vellore", state: "Tamil Nadu", type: "Deemed University" },
+      { name: "Delhi Technological University", city: "New Delhi", state: "Delhi", type: "State University" },
+      { name: "Birla Institute of Technology and Science Pilani", city: "Pilani", state: "Rajasthan", type: "Deemed University" },
+      { name: "Indian Institute of Technology Hyderabad", city: "Hyderabad", state: "Telangana", type: "Public" }
     ];
     
     // Create institutions and map for rankings
@@ -283,8 +281,8 @@ export class MemStorage implements IStorage {
     
     // Create rankings for these institutions (Overall category)
     setTimeout(() => {
-      // For Andhra Pradesh
-      const apRankings: InsertRanking[] = [
+      // Top-ranked institutions
+      const topRankings: InsertRanking[] = [
         { 
           institutionId: 1, year: 2023, category: "Overall", rank: 24,
           tlrScore: 79.12, rpcScore: 70.45, goScore: 73.98, oiScore: 68.23, prScore: 72.56, totalScore: 74.32
@@ -314,7 +312,7 @@ export class MemStorage implements IStorage {
           tlrScore: 62.34, rpcScore: 49.87, goScore: 59.56, oiScore: 64.23, prScore: 53.67, totalScore: 58.12
         },
         
-        // For Telangana
+        // More top institutions
         { 
           institutionId: 8, year: 2023, category: "Overall", rank: 9,
           tlrScore: 87.34, rpcScore: 84.56, goScore: 78.92, oiScore: 75.67, prScore: 81.23, totalScore: 82.56
@@ -351,7 +349,7 @@ export class MemStorage implements IStorage {
       
       // Engineering category rankings with detailed parameter breakdown
       const engineeringRankings: InsertRanking[] = [
-        // Andhra Pradesh
+        // Top engineering institutions
         { 
           institutionId: 1, year: 2023, category: "Engineering", rank: 15,
           // TLR breakdown - Teaching, Learning & Resources
@@ -392,7 +390,7 @@ export class MemStorage implements IStorage {
           tlrScore: 69.87, rpcScore: 60.23, goScore: 65.67, oiScore: 62.45, prScore: 58.92, totalScore: 64.56
         },
         
-        // Telangana
+        // More engineering institutions
         { 
           institutionId: 8, year: 2023, category: "Engineering", rank: 8,
           // TLR breakdown
@@ -436,7 +434,7 @@ export class MemStorage implements IStorage {
       
       // Management category rankings
       const managementRankings: InsertRanking[] = [
-        // Andhra Pradesh
+        // Top management institutions
         { 
           institutionId: 4, year: 2023, category: "Management", rank: 23,
           tlrScore: 78.92, rpcScore: 69.87, goScore: 74.56, oiScore: 72.34, prScore: 75.67, totalScore: 74.87
@@ -446,7 +444,7 @@ export class MemStorage implements IStorage {
           tlrScore: 75.67, rpcScore: 65.43, goScore: 71.23, oiScore: 69.87, prScore: 72.45, totalScore: 71.56
         },
         
-        // Telangana
+        // More management institutions
         { 
           institutionId: 10, year: 2023, category: "Management", rank: 19,
           tlrScore: 80.45, rpcScore: 72.34, goScore: 76.23, oiScore: 74.56, prScore: 77.89, totalScore: 76.92
@@ -458,7 +456,7 @@ export class MemStorage implements IStorage {
       ];
       
       // Combine all rankings
-      const allRankings = [...apRankings, ...engineeringRankings, ...managementRankings];
+      const allRankings = [...topRankings, ...engineeringRankings, ...managementRankings];
       
       // Add previous year (2022) data with slight differences
       const previousYearRankings = allRankings.map(ranking => ({

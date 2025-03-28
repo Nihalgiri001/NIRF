@@ -82,10 +82,10 @@ const TemplateDownload = () => {
       ],
       // Example row with sample data
       [
-        "Indian Institute of Technology Hyderabad",
-        "Telangana",
+        "Indian Institute of Technology Delhi",
+        "Delhi",
         "Public",
-        2008,
+        1961,
         "Engineering",
         2023,
         

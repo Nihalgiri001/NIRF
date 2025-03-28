@@ -48,8 +48,8 @@ const Home = () => {
         {/* Key Features */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <div className="bg-white p-5 rounded shadow-sm border-t-4 border-primary">
-            <h2 className="text-lg font-bold text-primary mb-2">AP & Telangana Focus</h2>
-            <p className="text-neutral-500 mb-4">Exclusive focus on institutions from Andhra Pradesh and Telangana, allowing for targeted regional analysis and comparisons.</p>
+            <h2 className="text-lg font-bold text-primary mb-2">Institutional Analysis</h2>
+            <p className="text-neutral-500 mb-4">Comprehensive analysis of educational institutions across India, allowing for detailed insights and comparisons.</p>
             <Link href="/rankings" className="text-primary hover:underline text-sm font-medium inline-flex items-center">
               Browse Rankings <ArrowRight className="h-4 w-4 ml-1" />
             </Link>
@@ -76,12 +76,12 @@ const Home = () => {
         
         {/* Note */}
         <div className="bg-white rounded shadow-sm p-4 text-sm text-neutral-500">
-          <h3 className="font-semibold mb-2">About This Regional NIRF Portal</h3>
+          <h3 className="font-semibold mb-2">About This NIRF Portal</h3>
           <p>
-            This portal focuses exclusively on NIRF-ranked institutions from Andhra Pradesh and Telangana states.
             The National Institutional Ranking Framework (NIRF) is an initiative by the Ministry of Education, Government of India,
             launched in 2015 to rank institutions nationwide. Our platform provides comprehensive insights into 
-            the educational landscape across India, enabling detailed analysis and comparison of institutions.
+            the educational landscape across India, enabling detailed analysis and comparison of institutions based on
+            established parameters including Teaching, Learning & Resources, Research, Graduation Outcomes, and more.
           </p>
         </div>
       </main>
