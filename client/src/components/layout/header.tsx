@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -68,11 +69,6 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light">
-                    About NIRF
-                  </Link>
-                </li>
-                <li>
                   <Link href="/rankings" className={`block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light ${location === '/rankings' ? 'bg-primary-dark font-semibold' : ''}`}>
                     Rankings
                   </Link>
@@ -88,18 +84,13 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light">
-                    Reports
+                  <Link href="/calculator" className={`block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light ${location === '/calculator' ? 'bg-primary-dark font-semibold' : ''}`}>
+                    Calculator
                   </Link>
                 </li>
                 <li>
                   <Link href="#" className="block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light">
                     Resources
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="block py-3 px-4 hover:bg-primary-dark border-b md:border-b-0 border-primary-light">
-                    Contact Us
                   </Link>
                 </li>
               </ul>
