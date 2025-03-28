@@ -22,11 +22,11 @@ const Home = () => {
         {/* Hero Section */}
         <div className="bg-white p-6 rounded shadow-sm mb-6 text-center md:text-left md:flex md:items-center md:justify-between">
           <div className="md:w-2/3">
-            <h1 className="text-2xl md:text-3xl font-bold text-primary mb-3">NIRF Rankings: Andhra Pradesh & Telangana</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-primary mb-3">NIRF Rankings Explorer</h1>
             <p className="text-neutral-500 mb-4">
-              Explore NIRF rankings specifically for institutions in Andhra Pradesh and Telangana states.
-              This application focuses on the performance of educational institutions in these two states
-              across various NIRF ranking parameters like Teaching, Learning and Resources, Research and 
+              Explore comprehensive NIRF rankings for educational institutions across India.
+              This application focuses on the performance of institutions across various 
+              NIRF ranking parameters like Teaching, Learning and Resources, Research and 
               Professional Practice, Graduation Outcomes, Outreach and Inclusivity, and Perception.
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-3">
@@ -86,8 +86,8 @@ const Home = () => {
           <p>
             This portal focuses exclusively on NIRF-ranked institutions from Andhra Pradesh and Telangana states.
             The National Institutional Ranking Framework (NIRF) is an initiative by the Ministry of Education, Government of India,
-            launched in 2015 to rank institutions nationwide. Our specialized regional view highlights the educational 
-            landscape of these two important southern states, allowing for more targeted analysis and comparison.
+            launched in 2015 to rank institutions nationwide. Our platform provides comprehensive insights into 
+            the educational landscape across India, enabling detailed analysis and comparison of institutions.
           </p>
         </div>
       </main>
