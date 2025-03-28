@@ -11,7 +11,6 @@ const Header = () => {
         {/* Top government bar */}
         <div className="bg-primary-dark text-white py-1 px-4 md:px-6 flex items-center justify-between text-xs">
           <div className="flex items-center space-x-4">
-            <img src="https://www.nirfindia.org/Home/images/emblem-dark.png" alt="Government of India Emblem" className="h-8" />
             <span className="hidden md:inline">Government of India</span>
           </div>
           <div className="flex items-center space-x-2 md:space-x-4">
