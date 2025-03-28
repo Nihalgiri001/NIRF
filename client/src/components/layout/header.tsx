@@ -30,8 +30,7 @@ const Header = () => {
         {/* Logo and site title */}
         <div className="flex flex-col md:flex-row items-center justify-between py-3 px-4 md:px-6">
           <div className="flex items-center mb-3 md:mb-0">
-            <img src="https://www.nirfindia.org/Home/images/nirf-logo.png" alt="NIRF Logo" className="h-14 md:h-16" />
-            <div className="ml-3">
+            <div>
               <h1 className="text-xl md:text-2xl font-bold text-primary">National Institutional Ranking Framework</h1>
               <p className="text-sm text-neutral-400">Ministry of Education, Government of India</p>
             </div>

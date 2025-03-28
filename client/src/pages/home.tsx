@@ -42,13 +42,7 @@ const Home = () => {
               </Link>
             </div>
           </div>
-          <div className="mt-6 md:mt-0 md:w-1/3 flex justify-center">
-            <img 
-              src="https://www.nirfindia.org/Home/images/nirf-logo.png" 
-              alt="NIRF Logo" 
-              className="h-32 md:h-44"
-            />
-          </div>
+          
         </div>
         
         {/* Key Features */}
