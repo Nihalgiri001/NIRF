@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -20,7 +21,6 @@ const Header = () => {
 
       {/* Main header content */}
       <div className="border-b">
-        {/* Logo and site title */}
         <div className="flex flex-col md:flex-row items-center justify-between py-3 px-4 md:px-6">
           <div className="flex items-center mb-3 md:mb-0">
             <div>
@@ -53,31 +53,21 @@ const Header = () => {
         </div>
 
         {/* Navigation */}
-        <nav className="bg-primary text-white">
+        <nav className="bg-primary">
           <div className="container mx-auto px-4 md:px-6">
-            <ul className={`flex-col md:flex-row ${isMobileMenuOpen ? 'flex' : 'hidden md:flex'} items-center`}>
+            <ul className={`md:flex ${isMobileMenuOpen ? 'block' : 'hidden'} md:items-center`}>
               <li>
-                <Link href="/" className={`block py-3 px-4 hover:bg-primary-dark ${location === '/' ? 'bg-primary-dark font-semibold' : ''}`}>
+                <Link href="/" className={`block py-3 px-4 hover:bg-primary-dark text-white ${location === '/' ? 'bg-primary-dark font-semibold' : ''}`}>
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/rankings" className={`block py-3 px-4 hover:bg-primary-dark ${location === '/rankings' ? 'bg-primary-dark font-semibold' : ''}`}>
+                <Link href="/rankings" className={`block py-3 px-4 hover:bg-primary-dark text-white ${location === '/rankings' ? 'bg-primary-dark font-semibold' : ''}`}>
                   Rankings
                 </Link>
               </li>
               <li>
-                <Link href="/methodology" className={`block py-3 px-4 hover:bg-primary-dark ${location === '/methodology' ? 'bg-primary-dark font-semibold' : ''}`}>
-                  Methodology
-                </Link>
-              </li>
-              <li>
-                <Link href="/parameters" className={`block py-3 px-4 hover:bg-primary-dark ${location === '/parameters' ? 'bg-primary-dark font-semibold' : ''}`}>
-                  Parameters
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="block py-3 px-4 hover:bg-primary-dark">
+                <Link href="#" className="block py-3 px-4 hover:bg-primary-dark text-white">
                   Resources
                 </Link>
               </li>
