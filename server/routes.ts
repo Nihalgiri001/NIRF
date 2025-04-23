@@ -277,7 +277,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const institutionName = row["Institution Name"] || row.Institution;
         const institutionState = row.State;
 
-        const institutionId = institutions.get(`${institutionName}-${institutionState}`);
+        const institutionId = institutionsMap.get(`${institutionName}-${institutionState}`);
 
         if (!institutionId) {
           return res.status(400).json({ 
@@ -446,6 +446,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         try {
           const validatedRanking = insertRankingSchema.parse(rankingData);
           rankings.push(validatedRanking);
+          allRankings.push(validatedRanking);
         } catch (error) {
           console.error("Error processing ranking data:", error);
           return res.status(400).json({ 
@@ -458,12 +459,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Save all rankings
-      await storage.bulkCreateRankings(rankings);
+      await storage.bulkCreateRankings(allRankings);
 
       res.status(200).json({ 
         message: "Import successful", 
-        institutionsCount: institutions.size, 
-        rankingsCount: rankings.length,
+        institutionsCount: institutionsCount, 
+        rankingsCount: allRankings.length,
         categories: workbook.SheetNames
       });
     } catch (error) {

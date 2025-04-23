@@ -17,6 +17,7 @@ interface ParameterHoverDataProps {
 interface ParameterTableData {
   id: number;
   institutionId: number;
+  name: string;
   score: number;
 }
 
@@ -25,12 +26,6 @@ const ParameterHoverData = ({ paramName, children }: ParameterHoverDataProps) =>
   const { data, isLoading, error } = useQuery<ParameterTableData[]>({
     queryKey: ['/api/parameter-data', paramName],
     queryFn: () => apiRequest<ParameterTableData[]>(`/api/parameter-data?param=${paramName}`),
-  });
-  
-  // Get institutions data
-  const { data: institutions } = useQuery<{ id: number; name: string; state: string }[]>({
-    queryKey: ['/api/institutions'],
-    queryFn: () => apiRequest('/api/institutions')
   });
 
   return (
@@ -42,7 +37,10 @@ const ParameterHoverData = ({ paramName, children }: ParameterHoverDataProps) =>
       </HoverCardTrigger>
       <HoverCardContent className="w-80 md:w-96">
         <div>
-          <h4 className="font-medium mb-2">{paramName} - Top Institutions</h4>
+          <h4 className="font-medium mb-2 text-primary">{paramName} - Top Institutions</h4>
+          <p className="text-xs text-muted-foreground mb-3">
+            Top 10 institutions ranked by {paramName} parameter score
+          </p>
           
           {isLoading && <p className="text-sm text-muted-foreground">Loading data...</p>}
           
@@ -58,17 +56,13 @@ const ParameterHoverData = ({ paramName, children }: ParameterHoverDataProps) =>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.map((item: ParameterTableData) => {
-                  // Find institution name
-                  const institution = institutions?.find(i => i.id === item.institutionId);
-                  return (
-                    <TableRow key={item.id}>
-                      <TableCell>{item.id}</TableCell>
-                      <TableCell>{institution ? institution.name : `Institution #${item.institutionId}`}</TableCell>
-                      <TableCell className="text-right">{item.score.toFixed(2)}</TableCell>
-                    </TableRow>
-                  );
-                })}
+                {data.map((item: ParameterTableData) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{item.id}</TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell className="text-right">{item.score.toFixed(2)}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           ) : !isLoading && !error ? (
