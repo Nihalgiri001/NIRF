@@ -54,31 +54,33 @@ const ParameterHoverData = ({ paramName, children }: ParameterHoverDataProps) =>
           {error && <p className="text-sm text-red-500">Error loading Excel data</p>}
           
           {data && data.length > 0 ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  {Object.keys(data[0]).map((header) => (
-                    <TableHead key={header}>{header}</TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data.map((row: any, index: number) => (
-                  <TableRow key={index}>
-                    {Object.values(row).map((value: any, cellIndex: number) => (
-                      <TableCell key={cellIndex}>{value}</TableCell>
+            <div className="max-h-[300px] overflow-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    {Object.keys(data[0]).map((header) => (
+                      <TableHead key={header}>{header}</TableHead>
                     ))}
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {data.map((row: any, index: number) => (
+                    <TableRow key={index}>
+                      {Object.values(row).map((value: any, cellIndex: number) => (
+                        <TableCell key={cellIndex}>{value}</TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           ) : !isLoading && !error ? (
             <div className="text-center py-4">
               <p className="text-sm text-muted-foreground">No data available for {paramName}</p>
               <div>
-  <p className="text-xs text-muted-foreground mt-1">Please ensure the Excel file has a worksheet named "{paramName}"</p>
-  <p className="text-xs text-muted-foreground mt-1">Available worksheets will be logged in console</p>
-</div>
+                <p className="text-xs text-muted-foreground mt-1">Please ensure the Excel file has a worksheet named "{paramName}"</p>
+                <p className="text-xs text-muted-foreground mt-1">Available worksheets will be logged in console</p>
+              </div>
             </div>
           ) : null}
         </div>
