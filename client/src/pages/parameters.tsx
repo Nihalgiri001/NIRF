@@ -15,9 +15,10 @@ const Parameters = () => {
       </div>
 
       <Tabs defaultValue="formulas" className="mb-8">
-        <TabsList className="grid w-full md:w-[400px] grid-cols-2 mx-auto mb-4">
+        <TabsList className="grid w-full md:w-[600px] grid-cols-3 mx-auto mb-4">
           <TabsTrigger value="formulas">Parameter Formulas</TabsTrigger>
           <TabsTrigger value="data">Parameter Top Rankings</TabsTrigger>
+          <TabsTrigger value="inputs">Parameter Input Fields</TabsTrigger>
         </TabsList>
         
         <TabsContent value="formulas" className="grid grid-cols-1 gap-8">
@@ -295,6 +296,308 @@ const Parameters = () => {
                   <div><ParameterHoverData paramName="PR">PR</ParameterHoverData> - Perception</div>
                 </div>
               </div>
+            </div>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="inputs" className="grid grid-cols-1 gap-8">
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <h3 className="text-xl font-bold text-primary mb-6">Required Input Fields for NIRF Parameters</h3>
+            <p className="text-sm text-muted-foreground mb-6">
+              The following input fields are required to calculate the NIRF parameters. Institutions need to provide this data for ranking calculations.
+            </p>
+            
+            {/* Basic Institution Information */}
+            <div className="border rounded-lg p-4 mb-6">
+              <h4 className="font-semibold text-lg text-primary mb-3">Basic Institution Information</h4>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-100">
+                    <th className="p-2 text-left">Field Name</th>
+                    <th className="p-2 text-left">Description</th>
+                    <th className="p-2 text-left">Units</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Institution Name</td>
+                    <td className="p-2">Full name of the institution</td>
+                    <td className="p-2">Text</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">State</td>
+                    <td className="p-2">State where institution is located</td>
+                    <td className="p-2">Text</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Type</td>
+                    <td className="p-2">Institution type (Public, Private, etc.)</td>
+                    <td className="p-2">Text</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Year Established</td>
+                    <td className="p-2">Year the institution was established</td>
+                    <td className="p-2">Year</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            {/* SS - Student Strength Parameter Inputs */}
+            <div className="border rounded-lg p-4 mb-6">
+              <h4 className="font-semibold text-lg text-primary mb-3">Student Strength (SS) Parameter Inputs</h4>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-100">
+                    <th className="p-2 text-left">Field Name</th>
+                    <th className="p-2 text-left">Description</th>
+                    <th className="p-2 text-left">Units</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Total Student Strength (N)</td>
+                    <td className="p-2">Total number of students enrolled</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Sanctioned Student Strength (Ns)</td>
+                    <td className="p-2">AICTE/UGC approved student intake</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Female Students (Nw)</td>
+                    <td className="p-2">Number of female students</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">PhD Students (Np)</td>
+                    <td className="p-2">Number of students enrolled in PhD programs</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            {/* FSR - Faculty Student Ratio Parameter Inputs */}
+            <div className="border rounded-lg p-4 mb-6">
+              <h4 className="font-semibold text-lg text-primary mb-3">Faculty-Student Ratio (FSR) Parameter Inputs</h4>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-100">
+                    <th className="p-2 text-left">Field Name</th>
+                    <th className="p-2 text-left">Description</th>
+                    <th className="p-2 text-left">Units</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Faculty Count (F)</td>
+                    <td className="p-2">Number of full-time faculty members</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Sanctioned Faculty Positions</td>
+                    <td className="p-2">Number of faculty positions approved</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Total Student Strength (N)</td>
+                    <td className="p-2">Total number of students enrolled</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            {/* FQE - Faculty Qualification & Experience Parameter Inputs */}
+            <div className="border rounded-lg p-4 mb-6">
+              <h4 className="font-semibold text-lg text-primary mb-3">Faculty Qualification & Experience (FQE) Parameter Inputs</h4>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-100">
+                    <th className="p-2 text-left">Field Name</th>
+                    <th className="p-2 text-left">Description</th>
+                    <th className="p-2 text-left">Units</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Faculty Count (F)</td>
+                    <td className="p-2">Number of full-time faculty members</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Faculty with PhD (F1)</td>
+                    <td className="p-2">Number of faculty with PhD or equivalent degree</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Faculty Experience</td>
+                    <td className="p-2">Average experience of faculty in years</td>
+                    <td className="p-2">Years</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            {/* Research & Publications Parameter Inputs */}
+            <div className="border rounded-lg p-4 mb-6">
+              <h4 className="font-semibold text-lg text-primary mb-3">Research & Publications Parameter Inputs (PU, QP, IPR, FPPP)</h4>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-100">
+                    <th className="p-2 text-left">Field Name</th>
+                    <th className="p-2 text-left">Description</th>
+                    <th className="p-2 text-left">Units</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Research Publications (P)</td>
+                    <td className="p-2">Number of research papers published in Scopus/Web of Science</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Citations Count (CC)</td>
+                    <td className="p-2">Total citations received for publications</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Patents Filed (PF)</td>
+                    <td className="p-2">Number of patents filed in last 3 years</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Patents Granted (PG)</td>
+                    <td className="p-2">Number of patents granted in last 3 years</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Sponsored Research Funding</td>
+                    <td className="p-2">Amount received from sponsored research projects</td>
+                    <td className="p-2">Lakhs</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Consultancy Earnings</td>
+                    <td className="p-2">Amount earned from consultancy projects</td>
+                    <td className="p-2">Lakhs</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            {/* Graduation Outcomes Parameter Inputs */}
+            <div className="border rounded-lg p-4 mb-6">
+              <h4 className="font-semibold text-lg text-primary mb-3">Graduation Outcomes Parameter Inputs (GPH, GUE, MS, GPHD)</h4>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-100">
+                    <th className="p-2 text-left">Field Name</th>
+                    <th className="p-2 text-left">Description</th>
+                    <th className="p-2 text-left">Units</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Total Graduates (N)</td>
+                    <td className="p-2">Total number of students who graduated</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Graduates Placed (NP)</td>
+                    <td className="p-2">Number of graduates who secured employment</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Graduates in Higher Studies (NH)</td>
+                    <td className="p-2">Number of graduates who enrolled for higher studies</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Graduates in Stipulated Time (Ng)</td>
+                    <td className="p-2">Number of students who graduated in minimum time</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Median Salary</td>
+                    <td className="p-2">Median salary of placed graduates</td>
+                    <td className="p-2">Lakhs per annum</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">PhD Graduates (Np)</td>
+                    <td className="p-2">Number of PhD degrees awarded</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            {/* Outreach & Inclusivity Parameter Inputs */}
+            <div className="border rounded-lg p-4 mb-6">
+              <h4 className="font-semibold text-lg text-primary mb-3">Outreach & Inclusivity Parameter Inputs (RD, WD, ESCS, PCS)</h4>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-100">
+                    <th className="p-2 text-left">Field Name</th>
+                    <th className="p-2 text-left">Description</th>
+                    <th className="p-2 text-left">Units</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Students from Other States (NOS)</td>
+                    <td className="p-2">Number of students from other states</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">International Students (NF)</td>
+                    <td className="p-2">Number of students from other countries</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Female Students (Nw)</td>
+                    <td className="p-2">Number of female students</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Economically Backward Students</td>
+                    <td className="p-2">Number of economically weaker section students</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">SC/ST Students</td>
+                    <td className="p-2">Number of SC/ST students</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Physically Handicapped Students</td>
+                    <td className="p-2">Number of differently-abled students</td>
+                    <td className="p-2">Number</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            {/* Perception Parameter Inputs */}
+            <div className="border rounded-lg p-4">
+              <h4 className="font-semibold text-lg text-primary mb-3">Perception (PR) Parameter Inputs</h4>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-100">
+                    <th className="p-2 text-left">Field Name</th>
+                    <th className="p-2 text-left">Description</th>
+                    <th className="p-2 text-left">Units</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t">
+                    <td className="p-2 font-medium">Peer Perception Score</td>
+                    <td className="p-2">Score based on survey of employers, academics, and other stakeholders</td>
+                    <td className="p-2">Score (0-100)</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </TabsContent>
