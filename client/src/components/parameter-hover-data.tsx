@@ -20,11 +20,18 @@ const ParameterHoverData = ({ paramName, children }: ParameterHoverDataProps) =>
     queryFn: async () => {
       try {
         const response = await fetch('/attached_assets/NIRF Rankings.xlsx');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch Excel file: ${response.statusText}`);
+        }
+        
         const arrayBuffer = await response.arrayBuffer();
         const workbook = XLSX.read(arrayBuffer);
         
+        console.log('Available sheets:', workbook.SheetNames);
+        
         // Try to find a worksheet matching the parameter name
         if (!workbook.SheetNames.includes(paramName)) {
+          console.warn(`Sheet "${paramName}" not found in workbook`);
           return null;
         }
         

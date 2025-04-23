@@ -16,6 +16,8 @@ import {
   calculatePRScore,
   calculateOverallScore
 } from "./utils/ranking-calculations";
+import express from 'express';
+import path from 'path';
 
 // Set up multer for file uploads
 const upload = multer({ 
@@ -23,7 +25,10 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
 });
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function setupRoutes(app: Express): Promise<Server> {
+  // Serve static files from attached_assets directory
+  app.use('/attached_assets', express.static(path.join(process.cwd(), 'attached_assets')));
+
   // API routes
   const apiRouter = app.route("/api");
 
