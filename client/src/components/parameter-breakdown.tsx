@@ -131,7 +131,15 @@ const ParameterBreakdown = ({ ranking }: ParameterBreakdownProps) => {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-2 mt-4">
           {mainParams.map((param) => (
             <div key={param.name} className="text-center p-2">
-              <div className="text-sm font-medium text-neutral-600 mb-1">{param.name}</div>
+              <div className="text-sm font-medium text-neutral-600 mb-1">
+                {param.name === "PR" ? (
+                  <ParameterHoverData paramName="PR">
+                    <span>{param.name}</span>
+                  </ParameterHoverData>
+                ) : (
+                  param.name
+                )}
+              </div>
               <div className="text-2xl font-bold" style={{ color: param.fill }}>{formatScore(param.score)}</div>
               <div className="text-xs text-neutral-400">Out of {param.total}</div>
             </div>
@@ -166,7 +174,9 @@ const ParameterBreakdown = ({ ranking }: ParameterBreakdownProps) => {
           <div className="mt-2 grid grid-cols-2 gap-1 text-xs">
             {tlrParams.map((param) => (
               <div key={param.name} className="flex justify-between">
-                <span className="font-semibold">{param.name}:</span>
+                <ParameterHoverData paramName={param.name}>
+                  <span className="font-semibold">{param.name}:</span>
+                </ParameterHoverData>
                 <span className="text-right">{formatScore(param.score)} / {param.total}</span>
               </div>
             ))}
@@ -198,7 +208,9 @@ const ParameterBreakdown = ({ ranking }: ParameterBreakdownProps) => {
           <div className="mt-2 grid grid-cols-2 gap-1 text-xs">
             {rpcParams.map((param) => (
               <div key={param.name} className="flex justify-between">
-                <span className="font-semibold">{param.name}:</span>
+                <ParameterHoverData paramName={param.name}>
+                  <span className="font-semibold">{param.name}:</span>
+                </ParameterHoverData>
                 <span className="text-right">{formatScore(param.score)} / {param.total}</span>
               </div>
             ))}
@@ -230,7 +242,9 @@ const ParameterBreakdown = ({ ranking }: ParameterBreakdownProps) => {
           <div className="mt-2 grid grid-cols-2 gap-1 text-xs">
             {goParams.map((param) => (
               <div key={param.name} className="flex justify-between">
-                <span className="font-semibold">{param.name}:</span>
+                <ParameterHoverData paramName={param.name}>
+                  <span className="font-semibold">{param.name}:</span>
+                </ParameterHoverData>
                 <span className="text-right">{formatScore(param.score)} / {param.total}</span>
               </div>
             ))}
@@ -262,7 +276,9 @@ const ParameterBreakdown = ({ ranking }: ParameterBreakdownProps) => {
           <div className="mt-2 grid grid-cols-2 gap-1 text-xs">
             {oiParams.map((param) => (
               <div key={param.name} className="flex justify-between">
-                <span className="font-semibold">{param.name}:</span>
+                <ParameterHoverData paramName={param.name}>
+                  <span className="font-semibold">{param.name}:</span>
+                </ParameterHoverData>
                 <span className="text-right">{formatScore(param.score)} / {param.total}</span>
               </div>
             ))}
