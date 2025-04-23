@@ -108,10 +108,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid parameter name" });
       }
 
-      // Get all rankings
+      // Get all rankings and institutions
       const allRankings = await storage.getRankings();
+      const allInstitutions = await storage.getInstitutions();
       
-      // Get institution info for each ranking
+      // Generate parameter data
       const paramData = allRankings
         .filter(r => {
           // Get the appropriate score field based on the parameter name
@@ -161,9 +162,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
             case 'PR': score = r.prScore || 0; break;
           }
 
+          // Find the institution to get its name
+          const institution = allInstitutions.find(i => i.id === r.institutionId);
+          
           return {
             id: r.rank,
             institutionId: r.institutionId,
+            name: institution ? institution.name : `Institution #${r.institutionId}`,
             score: score
           };
         });
@@ -213,10 +218,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Process each sheet's data
+      let institutionsCount = 0;
+      const allRankings = [];
+      
       for (const [sheetName, data] of Object.entries(allData)) {
-
+      
       // Process institutions first
-      const institutions = new Map();
+      const institutionsMap = new Map();
       for (const row of data) {
         // Check if this is the new template format or the old format
         const institutionName = row["Institution Name"] || row.Institution;
@@ -248,10 +256,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           );
 
           if (existingInstitution) {
-            institutions.set(`${validatedInstitution.name}-${validatedInstitution.state}`, existingInstitution.id);
+            institutionsMap.set(`${validatedInstitution.name}-${validatedInstitution.state}`, existingInstitution.id);
           } else {
             const newInstitution = await storage.createInstitution(validatedInstitution);
-            institutions.set(`${validatedInstitution.name}-${validatedInstitution.state}`, newInstitution.id);
+            institutionsMap.set(`${validatedInstitution.name}-${validatedInstitution.state}`, newInstitution.id);
+            institutionsCount++;
           }
         } catch (error) {
           console.error("Error processing institution data:", error);
