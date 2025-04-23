@@ -31,7 +31,7 @@ const ParameterHoverData = ({ paramName, children }: ParameterHoverDataProps) =>
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <span className="cursor-help underline underline-offset-4 decoration-dotted">
+        <span className="cursor-help underline underline-offset-4 decoration-dotted text-blue-600 font-semibold">
           {children}
         </span>
       </HoverCardTrigger>
