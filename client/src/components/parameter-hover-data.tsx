@@ -16,14 +16,21 @@ interface ParameterHoverDataProps {
 // Define type for the data we'll get from the API
 interface ParameterTableData {
   id: number;
-  name: string;
+  institutionId: number;
   score: number;
 }
 
 const ParameterHoverData = ({ paramName, children }: ParameterHoverDataProps) => {
-  const { data, isLoading, error } = useQuery({
+  // Get parameter data
+  const { data, isLoading, error } = useQuery<ParameterTableData[]>({
     queryKey: ['/api/parameter-data', paramName],
     queryFn: () => apiRequest<ParameterTableData[]>(`/api/parameter-data?param=${paramName}`),
+  });
+  
+  // Get institutions data
+  const { data: institutions } = useQuery<{ id: number; name: string; state: string }[]>({
+    queryKey: ['/api/institutions'],
+    queryFn: () => apiRequest('/api/institutions')
   });
 
   return (
@@ -51,13 +58,17 @@ const ParameterHoverData = ({ paramName, children }: ParameterHoverDataProps) =>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.map((item: ParameterTableData) => (
-                  <TableRow key={item.id}>
-                    <TableCell>{item.id}</TableCell>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell className="text-right">{item.score.toFixed(2)}</TableCell>
-                  </TableRow>
-                ))}
+                {data.map((item: ParameterTableData) => {
+                  // Find institution name
+                  const institution = institutions?.find(i => i.id === item.institutionId);
+                  return (
+                    <TableRow key={item.id}>
+                      <TableCell>{item.id}</TableCell>
+                      <TableCell>{institution ? institution.name : `Institution #${item.institutionId}`}</TableCell>
+                      <TableCell className="text-right">{item.score.toFixed(2)}</TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           ) : !isLoading && !error ? (

@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
   Cell
 } from 'recharts';
+import ParameterHoverData from './parameter-hover-data';
 
 interface ParameterBreakdownProps {
   ranking: RankingWithInstitution;

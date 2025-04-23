@@ -63,7 +63,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/categories", async (req: Request, res: Response) => {
     try {
       const rankings = await storage.getRankings();
-      const categories = [...new Set(rankings.map(r => r.category))];
+      // Create a unique array of categories without using Set
+      const categoryMap: Record<string, boolean> = {};
+      rankings.forEach(r => {
+        if (r.category) categoryMap[r.category] = true;
+      });
+      const categories = Object.keys(categoryMap);
       res.json({ categories });
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -78,6 +83,100 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching institutions:", error);
       res.status(500).json({ message: "Error fetching institutions" });
+    }
+  });
+
+  // Get parameter-specific data from uploaded Excel file or from the database
+  app.get("/api/parameter-data", async (req: Request, res: Response) => {
+    try {
+      const paramName = req.query.param as string;
+      
+      if (!paramName) {
+        return res.status(400).json({ message: "Parameter name is required" });
+      }
+
+      // Valid parameter names
+      const validParams = [
+        'SS', 'FSR', 'FQE', 'FRU', // TLR
+        'PU', 'QP', 'IPR', 'FPPP', // RPC
+        'GPH', 'GUE', 'MS', 'GPHD', // GO
+        'RD', 'WD', 'ESCS', 'PCS', // OI
+        'PR' // PR
+      ];
+
+      if (!validParams.includes(paramName)) {
+        return res.status(400).json({ message: "Invalid parameter name" });
+      }
+
+      // Get all rankings
+      const allRankings = await storage.getRankings();
+      
+      // Get institution info for each ranking
+      const paramData = allRankings
+        .filter(r => {
+          // Get the appropriate score field based on the parameter name
+          let score = null;
+          switch(paramName) {
+            case 'SS': score = r.ssScore; break;
+            case 'FSR': score = r.fsrScore; break;
+            case 'FQE': score = r.fqeScore; break;
+            case 'FRU': score = r.fruScore; break;
+            case 'PU': score = r.puScore; break;
+            case 'QP': score = r.qpScore; break;
+            case 'IPR': score = r.iprScore; break;
+            case 'FPPP': score = r.fpppScore; break;
+            case 'GPH': score = r.gphScore; break;
+            case 'GUE': score = r.gueScore; break;
+            case 'MS': score = r.msScore; break;
+            case 'GPHD': score = r.gphdScore; break;
+            case 'RD': score = r.rdScore; break;
+            case 'WD': score = r.wdScore; break;
+            case 'ESCS': score = r.escsScore; break;
+            case 'PCS': score = r.pcsScore; break;
+            case 'PR': score = r.prScore; break;
+          }
+          // Filter out null or undefined scores
+          return score !== null && score !== undefined;
+        })
+        .map(r => {
+          // Get score based on parameter name
+          let score = 0;
+          switch(paramName) {
+            case 'SS': score = r.ssScore || 0; break;
+            case 'FSR': score = r.fsrScore || 0; break;
+            case 'FQE': score = r.fqeScore || 0; break;
+            case 'FRU': score = r.fruScore || 0; break;
+            case 'PU': score = r.puScore || 0; break;
+            case 'QP': score = r.qpScore || 0; break;
+            case 'IPR': score = r.iprScore || 0; break;
+            case 'FPPP': score = r.fpppScore || 0; break;
+            case 'GPH': score = r.gphScore || 0; break;
+            case 'GUE': score = r.gueScore || 0; break;
+            case 'MS': score = r.msScore || 0; break;
+            case 'GPHD': score = r.gphdScore || 0; break;
+            case 'RD': score = r.rdScore || 0; break;
+            case 'WD': score = r.wdScore || 0; break;
+            case 'ESCS': score = r.escsScore || 0; break;
+            case 'PCS': score = r.pcsScore || 0; break;
+            case 'PR': score = r.prScore || 0; break;
+          }
+
+          return {
+            id: r.rank,
+            institutionId: r.institutionId,
+            score: score
+          };
+        });
+
+      // Sort by score in descending order and limit to top 10
+      const sortedData = paramData
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 10);
+
+      res.json(sortedData);
+    } catch (error) {
+      console.error(`Error fetching parameter data for ${req.query.param}:`, error);
+      res.status(500).json({ message: "Error fetching parameter data" });
     }
   });
 
