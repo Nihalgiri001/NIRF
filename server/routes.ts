@@ -90,7 +90,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/parameter-data", async (req: Request, res: Response) => {
     try {
       const paramName = req.query.param as string;
-      
+
       if (!paramName) {
         return res.status(400).json({ message: "Parameter name is required" });
       }
@@ -111,7 +111,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get all rankings and institutions
       const allRankings = await storage.getRankings();
       const allInstitutions = await storage.getInstitutions();
-      
+
       // Generate parameter data
       const paramData = allRankings
         .filter(r => {
@@ -164,7 +164,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
           // Find the institution to get its name
           const institution = allInstitutions.find(i => i.id === r.institutionId);
-          
+
           return {
             id: r.rank,
             institutionId: r.institutionId,
@@ -205,6 +205,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Excel file contains no sheets" });
       }
 
+      console.log("Available worksheets:", workbook.SheetNames);
+
       for (const sheetName of workbook.SheetNames) {
         const worksheet = workbook.Sheets[sheetName];
         const sheetData = utils.sheet_to_json(worksheet) as Record<string, any>[];
@@ -220,9 +222,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Process each sheet's data
       let institutionsCount = 0;
       const allRankings = [];
-      
+
       for (const [sheetName, data] of Object.entries(allData)) {
-      
+
       // Process institutions first
       const institutionsMap = new Map();
       for (const row of data) {

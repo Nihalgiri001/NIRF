@@ -75,7 +75,10 @@ const ParameterHoverData = ({ paramName, children }: ParameterHoverDataProps) =>
           ) : !isLoading && !error ? (
             <div className="text-center py-4">
               <p className="text-sm text-muted-foreground">No data available for {paramName}</p>
-              <p className="text-xs text-muted-foreground mt-1">Please ensure the Excel file has a worksheet named "{paramName}"</p>
+              <div>
+  <p className="text-xs text-muted-foreground mt-1">Please ensure the Excel file has a worksheet named "{paramName}"</p>
+  <p className="text-xs text-muted-foreground mt-1">Available worksheets will be logged in console</p>
+</div>
             </div>
           ) : null}
         </div>
