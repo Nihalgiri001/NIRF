@@ -65,7 +65,19 @@ export async function setupRoutes(app: Express): Promise<Server> {
 
   // Get all institutions
   // Get available categories
-  app.get("/api/categories", async (req: Request, res: Response) => {
+  // Get Excel sheet parameters
+app.get("/api/parameters", async (req: Request, res: Response) => {
+  try {
+    const workbook = XLSX.readFile("attached_assets/college_categories.xlsx");
+    const parameters = workbook.SheetNames;
+    res.json({ parameters });
+  } catch (error) {
+    console.error("Error reading Excel parameters:", error);
+    res.status(500).json({ message: "Error reading parameters" });
+  }
+});
+
+app.get("/api/categories", async (req: Request, res: Response) => {
     try {
       const rankings = await storage.getRankings();
       // Create a unique array of categories without using Set
