@@ -46,7 +46,7 @@ function RankingsFilter({ onFilterChange }) {
             <SelectValue placeholder="Select Category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Categories</SelectItem>
+            <SelectItem value="all">All Categories</SelectItem>
             {categories.map(category => (
               <SelectItem key={category} value={category}>{category}</SelectItem>
             ))}
@@ -67,7 +67,7 @@ function RankingsFilter({ onFilterChange }) {
             <SelectValue placeholder="Select Parameter" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Parameters</SelectItem>
+            <SelectItem value="all">All Parameters</SelectItem>
             {parameters.map(param => (
               <SelectItem key={param} value={param}>{param}</SelectItem>
             ))}

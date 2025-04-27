@@ -2,7 +2,7 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import multer from "multer";
-import { read as xlsxRead, utils, readFile } from "xlsx"; // Renamed read to xlsxRead to avoid conflict
+import { read as xlsxRead, utils, readFile, read } from "xlsx"; // Import XLSX modules
 import { z } from "zod";
 import { insertRankingSchema, insertInstitutionSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
