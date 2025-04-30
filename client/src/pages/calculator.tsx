@@ -5,7 +5,7 @@ import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
 import { Label } from '../components/ui/label';
 
-const Calculator = () => {
+const calculator = () => {
   const [scores, setScores] = useState({
     // TLR scores
     ssScore: 0,
@@ -318,4 +318,4 @@ const Calculator = () => {
   );
 };
 
-export default Calculator;
+export default calculator;

@@ -1,8 +1,11 @@
+import { useState } from "react";
+import Modal from "@/components/ui/modal";
+import { parseExcelFile } from "@/lib/excel";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calculator } from "@/components/calculator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ParameterHoverData from "@/components/parameter-hover-data";
+import Calculator from "@/components/calculator";
 
 const Parameters = () => {
   return (
@@ -251,52 +254,7 @@ const Parameters = () => {
             <p className="text-sm text-muted-foreground mb-6">
               Click on any parameter code below to see the top 10 institutions ranked by that specific parameter.
             </p>
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {/* TLR Parameters */}
-              <div className="bg-white p-4 rounded border">
-                <h4 className="font-medium mb-3">TLR Parameters</h4>
-                <div className="space-y-2">
-                  <div><ParameterHoverData paramName="SS">SS</ParameterHoverData> - Student Strength</div>
-                  <div><ParameterHoverData paramName="FSR">FSR</ParameterHoverData> - Faculty-Student Ratio</div>
-                  <div><ParameterHoverData paramName="FQE">FQE</ParameterHoverData> - Faculty Qualifications</div>
-                  <div><ParameterHoverData paramName="FRU">FRU</ParameterHoverData> - Financial Resources</div>
-                </div>
-              </div>
-              
-              {/* RPC Parameters */}
-              <div className="bg-white p-4 rounded border">
-                <h4 className="font-medium mb-3">RPC Parameters</h4>
-                <div className="space-y-2">
-                  <div><ParameterHoverData paramName="PU">PU</ParameterHoverData> - Publications</div>
-                  <div><ParameterHoverData paramName="QP">QP</ParameterHoverData> - Quality of Publications</div>
-                  <div><ParameterHoverData paramName="IPR">IPR</ParameterHoverData> - IPR and Patents</div>
-                  <div><ParameterHoverData paramName="FPPP">FPPP</ParameterHoverData> - Footprint of Projects</div>
-                </div>
-              </div>
-              
-              {/* GO Parameters */}
-              <div className="bg-white p-4 rounded border">
-                <h4 className="font-medium mb-3">GO Parameters</h4>
-                <div className="space-y-2">
-                  <div><ParameterHoverData paramName="GPH">GPH</ParameterHoverData> - Placement & Higher Studies</div>
-                  <div><ParameterHoverData paramName="GUE">GUE</ParameterHoverData> - University Examinations</div>
-                  <div><ParameterHoverData paramName="MS">MS</ParameterHoverData> - Median Salary</div>
-                  <div><ParameterHoverData paramName="GPHD">GPHD</ParameterHoverData> - PhD Graduates</div>
-                </div>
-              </div>
-              
-              {/* OI Parameters */}
-              <div className="bg-white p-4 rounded border">
-                <h4 className="font-medium mb-3">OI & PR Parameters</h4>
-                <div className="space-y-2">
-                  <div><ParameterHoverData paramName="RD">RD</ParameterHoverData> - Regional Diversity</div>
-                  <div><ParameterHoverData paramName="WD">WD</ParameterHoverData> - Women Diversity</div>
-                  <div><ParameterHoverData paramName="ESCS">ESCS</ParameterHoverData> - Econ. & Social Inclusion</div>
-                  <div><ParameterHoverData paramName="PR">PR</ParameterHoverData> - Perception</div>
-                </div>
-              </div>
-            </div>
+            <ParametersTopRankings />
           </div>
         </TabsContent>
         
@@ -602,6 +560,87 @@ const Parameters = () => {
           </div>
         </TabsContent>
       </Tabs>
+    </div>
+  );
+};
+
+const ParametersTopRankings = () => {
+  const [selectedParam, setSelectedParam] = useState(null);
+  const [excelData, setExcelData] = useState(null);
+
+  const handleParamClick = async (paramName) => {
+    setSelectedParam(paramName);
+    try {
+      const data = await parseExcelFile(paramName);
+      if (!data) {
+        throw new Error("Failed to parse Excel file. Please check the file format.");
+      }
+      setExcelData(data);
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while parsing the Excel file. Please try again.");
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedParam(null);
+    setExcelData(null);
+  };
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* TLR Parameters */}
+      <div className="bg-white p-4 rounded border">
+        <h4 className="font-medium mb-3">TLR Parameters</h4>
+        <div className="space-y-2">
+          <div onClick={() => handleParamClick("SS")}><ParameterHoverData paramName="SS">SS</ParameterHoverData> - Student Strength</div>
+          <div onClick={() => handleParamClick("FSR")}><ParameterHoverData paramName="FSR">FSR</ParameterHoverData> - Faculty-Student Ratio</div>
+          <div onClick={() => handleParamClick("FQE")}><ParameterHoverData paramName="FQE">FQE</ParameterHoverData> - Faculty Qualifications</div>
+          <div onClick={() => handleParamClick("FRU")}><ParameterHoverData paramName="FRU">FRU</ParameterHoverData> - Financial Resources</div>
+        </div>
+      </div>
+
+      {/* RPC Parameters */}
+      <div className="bg-white p-4 rounded border">
+        <h4 className="font-medium mb-3">RPC Parameters</h4>
+        <div className="space-y-2">
+          <div onClick={() => handleParamClick("PU")}><ParameterHoverData paramName="PU">PU</ParameterHoverData> - Publications</div>
+          <div onClick={() => handleParamClick("QP")}><ParameterHoverData paramName="QP">QP</ParameterHoverData> - Quality of Publications</div>
+          <div onClick={() => handleParamClick("IPR")}><ParameterHoverData paramName="IPR">IPR</ParameterHoverData> - IPR and Patents</div>
+          <div onClick={() => handleParamClick("FPPP")}><ParameterHoverData paramName="FPPP">FPPP</ParameterHoverData> - Footprint of Projects</div>
+        </div>
+      </div>
+
+      {/* GO Parameters */}
+      <div className="bg-white p-4 rounded border">
+        <h4 className="font-medium mb-3">GO Parameters</h4>
+        <div className="space-y-2">
+          <div onClick={() => handleParamClick("GPH")}><ParameterHoverData paramName="GPH">GPH</ParameterHoverData> - Placement & Higher Studies</div>
+          <div onClick={() => handleParamClick("GUE")}><ParameterHoverData paramName="GUE">GUE</ParameterHoverData> - University Examinations</div>
+          <div onClick={() => handleParamClick("MS")}><ParameterHoverData paramName="MS">MS</ParameterHoverData> - Median Salary</div>
+          <div onClick={() => handleParamClick("GPHD")}><ParameterHoverData paramName="GPHD">GPHD</ParameterHoverData> - PhD Graduates</div>
+        </div>
+      </div>
+
+      {/* OI & PR Parameters */}
+      <div className="bg-white p-4 rounded border">
+        <h4 className="font-medium mb-3">OI & PR Parameters</h4>
+        <div className="space-y-2">
+          <div onClick={() => handleParamClick("RD")}><ParameterHoverData paramName="RD">RD</ParameterHoverData> - Regional Diversity</div>
+          <div onClick={() => handleParamClick("WD")}><ParameterHoverData paramName="WD">WD</ParameterHoverData> - Women Diversity</div>
+          <div onClick={() => handleParamClick("ESCS")}><ParameterHoverData paramName="ESCS">ESCS</ParameterHoverData> - Econ. & Social Inclusion</div>
+          <div onClick={() => handleParamClick("PR")}><ParameterHoverData paramName="PR">PR</ParameterHoverData> - Perception</div>
+        </div>
+      </div>
+
+      {selectedParam && (
+        <Modal isOpen={!!selectedParam} onClose={closeModal}>
+          <div className="p-4">
+            <h2 className="text-2xl font-bold mb-4">{selectedParam} Data</h2>
+            <pre>{JSON.stringify(excelData, null, 2)}</pre>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
