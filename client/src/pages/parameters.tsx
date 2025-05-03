@@ -8,6 +8,25 @@ import ParameterHoverData from "@/components/parameter-hover-data";
 import Calculator from "@/components/calculator";
 
 const Parameters = () => {
+  const [parameterScores, setParameterScores] = useState({
+    SS: 0,
+    FSR: 0,
+    FQE: 0,
+    FRU: 0,
+    PU: 0,
+    QP: 0,
+    IPR: 0,
+    FPPP: 0,
+    GPH: 0,
+    GUE: 0,
+    MS: 0,
+    GPHD: 0,
+    RD: 0,
+    WD: 0,
+    ESCS: 0,
+    PR: 0,
+  });
+
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       <h1 className="text-4xl font-bold text-primary mb-8 text-center">NIRF Ranking Parameters</h1>
@@ -244,6 +263,68 @@ const Parameters = () => {
                 Enter your scores for each parameter (0-100) to calculate your total NIRF ranking score.
               </p>
               <Calculator />
+
+              <div className="mt-8 bg-gray-100 p-4 rounded-lg shadow">
+                <h3 className="text-lg font-semibold mb-4">Parameter Scores</h3>
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr>
+                      {Object.keys(parameterScores).map((param) => (
+                        <th key={param} className="p-2 text-center font-medium text-gray-700 border-b">{param}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      {Object.values(parameterScores).map((score, index) => (
+                        <td key={index} className="p-2 text-center text-gray-900">{score}</td>
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div className="mt-6">
+                  <h4 className="text-md font-semibold mb-2">Parameters</h4>
+                  <ul className="space-y-2">
+                    <li className="flex justify-between">
+                      <span className="font-medium text-gray-700">TLR (Teaching, Learning & Resources)</span>
+                      <span className="text-gray-900">{
+                        parameterScores.SS +
+                        parameterScores.FSR +
+                        parameterScores.FQE +
+                        parameterScores.FRU
+                      }</span>
+                    </li>
+                    <li className="flex justify-between">
+                      <span className="font-medium text-gray-700">RP (Research and Professional Practice)</span>
+                      <span className="text-gray-900">{
+                        parameterScores.PU +
+                        parameterScores.QP +
+                        parameterScores.IPR +
+                        parameterScores.FPPP
+                      }</span>
+                    </li>
+                    <li className="flex justify-between">
+                      <span className="font-medium text-gray-700">GO (Graduation Outcomes)</span>
+                      <span className="text-gray-900">{
+                        parameterScores.GPH +
+                        parameterScores.GUE +
+                        parameterScores.MS +
+                        parameterScores.GPHD
+                      }</span>
+                    </li>
+                    <li className="flex justify-between">
+                      <span className="font-medium text-gray-700">OI (Outreach and Inclusivity)</span>
+                      <span className="text-gray-900">{
+                        parameterScores.RD +
+                        parameterScores.WD +
+                        parameterScores.ESCS +
+                        parameterScores.PR
+                      }</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

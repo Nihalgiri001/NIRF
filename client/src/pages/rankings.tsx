@@ -92,24 +92,36 @@ const Rankings = () => {
       </div>
 
       {/* Table to display sheet data */}
-      <table style={{ borderCollapse: 'collapse', width: '100%', marginTop: '20px' }}>
-        <thead>
-          <tr>
-            {filteredData.length > 0 && Object.keys(filteredData[0]).map((key) => (
-              <th key={key} style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#f2f2f2', textAlign: 'left' }}>{key}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((row, index) => (
-            <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
-              {Object.values(row).map((value, idx) => (
-                <td key={idx} style={{ border: '1px solid #ddd', padding: '8px' }}>{value}</td>
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ borderCollapse: 'collapse', width: '100%', marginTop: '20px' }}>
+          <thead>
+            <tr>
+              {filteredData.length > 0 && Object.keys(filteredData[0]).map((key) => (
+                <th key={key} style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#f2f2f2', textAlign: 'center' }}>{key}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredData.map((row, index) => (
+              <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
+                {Object.values(row).map((value, idx) => (
+                  <td
+                    key={idx}
+                    style={{
+                      border: '1px solid #ddd',
+                      padding: '8px',
+                      textAlign: 'center',
+                      backgroundColor: ["TLR (100)", "RP (100)", "GO (100)", "OI (100)"].includes(Object.keys(row)[idx]) ? 'yellow' : 'transparent'
+                    }}
+                  >
+                    {(idx === 0 || idx === 2) && typeof value === 'number' ? Math.round(value) : typeof value === 'number' ? value.toFixed(2) : value}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
