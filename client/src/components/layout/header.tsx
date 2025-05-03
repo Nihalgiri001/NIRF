@@ -81,6 +81,16 @@ const Header = () => {
                   Resources
                 </Link>
               </li>
+              <li>
+                <Link href="/second-repo" className="block py-3 px-4 hover:bg-primary-dark">
+                  Second Repo Page
+                </Link>
+              </li>
+              <li>
+                <Link href="/nirf-finder-explorer" className="block py-3 px-4 hover:bg-primary-dark">
+                  NIRF Finder Explorer
+                </Link>
+              </li>
             </ul>
           </div>
         </nav>

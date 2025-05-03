@@ -9,6 +9,8 @@ import Methodology from "@/pages/methodology";
 import Parameters from "@/pages/parameters";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import SecondRepoPage from './pages/secondRepoPage';
+import NirfFinderExplorerPage from './pages/nirfFinderExplorerPage';
 
 function Router() {
   return (
@@ -19,6 +21,8 @@ function Router() {
         <Route path="/rankings" component={Rankings} />
         <Route path="/methodology" component={Methodology} />
         <Route path="/parameters" component={Parameters} />
+        <Route path="/second-repo" component={SecondRepoPage} />
+        <Route path="/nirf-finder-explorer" component={NirfFinderExplorerPage} />
         <Route component={NotFound} />
       </Switch>
       <Footer />
